@@ -656,13 +656,33 @@
       white-space: nowrap;
       backdrop-filter: blur(6px);
       box-shadow: 0 8px 18px rgba(0,0,0,.34);
-      transition: border-color .3s ease, color .3s ease, box-shadow .3s ease;
+      transition: opacity .5s ease, transform .5s ease, border-color .3s ease, color .3s ease, box-shadow .3s ease;
+      opacity: 0;
+      transform: translate(-50%, calc(-100% - 8px));
     }
     .flow-label.active {
       color: #eff8ff;
       border-color: rgba(0,209,255,.5);
       box-shadow: 0 10px 24px rgba(0,209,255,.18);
+      opacity: 1;
+      transform: translate(-50%, calc(-100% - 18px));
     }
+    #how[data-stage="1"] .flow-label[data-node="agent"] { opacity: 1; transform: translate(-50%, calc(-100% - 18px)); }
+    #how[data-stage="2"] .flow-label[data-node="agent"],
+    #how[data-stage="2"] .flow-label[data-node="trace"] { opacity: 1; transform: translate(-50%, calc(-100% - 18px)); }
+    #how[data-stage="3"] .flow-label[data-node="agent"],
+    #how[data-stage="3"] .flow-label[data-node="trace"],
+    #how[data-stage="3"] .flow-label[data-node="tx"] { opacity: 1; transform: translate(-50%, calc(-100% - 18px)); }
+    #how[data-stage="4"] .flow-label[data-node="agent"],
+    #how[data-stage="4"] .flow-label[data-node="trace"],
+    #how[data-stage="4"] .flow-label[data-node="tx"],
+    #how[data-stage="4"] .flow-label[data-node="economy"] { opacity: 1; transform: translate(-50%, calc(-100% - 18px)); }
+    #how[data-stage="5"] .flow-label[data-node="agent"],
+    #how[data-stage="5"] .flow-label[data-node="trace"],
+    #how[data-stage="5"] .flow-label[data-node="tx"],
+    #how[data-stage="5"] .flow-label[data-node="economy"],
+    #how[data-stage="5"] .flow-label[data-node="provenance"],
+    #how[data-stage="5"] .flow-label[data-node="governance"] { opacity: 1; transform: translate(-50%, calc(-100% - 18px)); }
     .how-panel {
       margin-top: var(--space-2);
       border: 1px solid rgba(0,209,255,.26);
@@ -771,6 +791,23 @@
       pointer-events: none;
       opacity: .95;
     }
+    .why-overlay .orbit-core,
+    .why-overlay .orbit-ring,
+    .why-overlay .ring-label,
+    .why-overlay .why-signal {
+      opacity: 0;
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    #why[data-stage="1"] .why-overlay .orbit-core { opacity: 1; }
+    #why[data-stage="2"] .why-overlay .orbit-core,
+    #why[data-stage="2"] .why-overlay .orbit-ring { opacity: 1; }
+    #why[data-stage="3"] .why-overlay .orbit-core,
+    #why[data-stage="3"] .why-overlay .orbit-ring,
+    #why[data-stage="3"] .why-overlay .ring-label { opacity: .9; }
+    #why[data-stage="4"] .why-overlay .orbit-core,
+    #why[data-stage="4"] .why-overlay .orbit-ring,
+    #why[data-stage="4"] .why-overlay .ring-label,
+    #why[data-stage="4"] .why-overlay .why-signal { opacity: 1; }
     .orbital-grid {
       position: absolute;
       inset: 0;
@@ -814,7 +851,7 @@
       padding: .2rem .44rem;
       background: rgba(5,7,10,.72);
       transition: opacity .35s ease, border-color .35s ease, color .35s ease;
-      opacity: .72;
+      opacity: 0;
     }
     .label-measure { left: 58%; top: 28%; }
     .label-price { left: 64%; top: 44%; }
@@ -1085,6 +1122,20 @@
       background-clip: text;
       color: transparent;
       font-weight: 700;
+    }
+    .scene-transition {
+      padding-top: clamp(3.2rem, 6vw, 4.4rem);
+      padding-bottom: clamp(3.2rem, 6vw, 4.4rem);
+      background: linear-gradient(180deg, rgba(4,8,14,.12), rgba(3,6,11,.48), rgba(4,8,14,.12));
+    }
+    .scene-transition .story-transition {
+      opacity: .5;
+      transform: translateY(10px);
+      transition: opacity .55s ease, transform .55s ease;
+    }
+    .scene-transition.scene-active .story-transition {
+      opacity: 1;
+      transform: translateY(0);
     }
     .hero-note { font-size: .88rem; opacity: .86; margin-top: var(--space-2); }
     .data-grid-tight { margin-top: var(--space-2); }
@@ -1649,7 +1700,7 @@
   </header>
 
   <main>
-    <section class="hero" id="hero">
+    <section class="hero" id="hero" data-scene="hero">
       <div class="site-container container hero-wrap">
         <div class="hero-grid">
           <div class="hero-copy">
@@ -1690,7 +1741,7 @@
       </nav>
     </div>
 
-    <section class="section story-section section-theme-why" id="why">
+    <section class="section story-section section-theme-why" id="why" data-scene="why">
       <div class="site-container container why-grid">
         <div class="story-section-pin">
           <div class="pin-shell">
@@ -1748,9 +1799,14 @@
       </div>
     </section>
 
-    <section class="section story-section section-theme-how" id="how">
+    <section class="section scene-transition" id="transition" data-scene="transition">
       <div class="site-container container">
-        <p class="story-transition reveal">From black box <span>to verifiable economy</span></p>
+        <p class="story-transition reveal">From black box <span>to verifiable system</span></p>
+      </div>
+    </section>
+
+    <section class="section story-section section-theme-how" id="how" data-scene="how">
+      <div class="site-container container">
         <div class="how-head reveal">
           <div class="section-kicker">HOW</div>
           <h2 class="display">A new economy for intelligence</h2>
@@ -1810,7 +1866,7 @@
       </div>
     </section>
 
-    <section class="section agent-preview" id="agent-preview">
+    <section class="section agent-preview" id="agent-preview" data-scene="agents">
       <div class="site-container container">
         <div class="agent-preview-head reveal">
           <div class="section-kicker">Preview</div>
@@ -1902,7 +1958,7 @@
       </div>
     </section>
 
-    <section class="section story-section section-theme-what" id="product">
+    <section class="section story-section section-theme-what" id="product" data-scene="what">
       <div class="site-container container">
         <div class="what-head reveal">
           <div>
@@ -2038,7 +2094,7 @@
       </div>
     </section>
 
-    <section class="section final" id="final">
+    <section class="section final" id="final" data-scene="cta">
       <div class="site-container container">
         <h2 class="display">The economy of intelligence has begun.</h2>
         <p>Build the agent. Prove its skill. Let the market decide its value.</p>
@@ -2196,8 +2252,11 @@
 
     const revealTargets = document.querySelectorAll('.reveal');
     const whySection = document.getElementById('why');
+    const transitionSection = document.getElementById('transition');
     const howSection = document.getElementById('how');
     const whatSection = document.getElementById('product');
+    const agentsSection = document.getElementById('agent-preview');
+    const ctaSection = document.getElementById('final');
     let whyStep = 0;
     let howStep = 0;
     let whatStep = 0;
@@ -2449,6 +2508,37 @@
       whatSection.classList.toggle('what-punch', punch);
     }
 
+    function clamp01(v) {
+      return Math.max(0, Math.min(1, v));
+    }
+
+    function sectionProgress(section, bias = 0.55) {
+      if (!section) return 0;
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const start = vh * bias;
+      const total = rect.height + vh * (1 - bias);
+      return clamp01((start - rect.top) / Math.max(total, 1));
+    }
+
+    function updateWhyTimeline() {
+      if (!whySection) return;
+      const p = sectionProgress(whySection, window.innerWidth <= 900 ? 0.65 : 0.58);
+      const stage = p < 0.24 ? 1 : p < 0.5 ? 2 : p < 0.76 ? 3 : 4;
+      whySection.dataset.stage = String(stage);
+      whyStep = Math.max(whyStep, stage);
+      setWhyState(stage, stage >= 4);
+    }
+
+    function updateHowTimeline() {
+      if (!howSection) return;
+      const p = sectionProgress(howSection, window.innerWidth <= 900 ? 0.62 : 0.56);
+      const stage = p < 0.18 ? 1 : p < 0.34 ? 2 : p < 0.5 ? 3 : p < 0.68 ? 4 : p < 0.84 ? 5 : 5;
+      howSection.dataset.stage = String(stage);
+      howStep = Math.max(howStep, stage);
+      setHowState(stage, p > 0.86);
+    }
+
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
@@ -2499,6 +2589,36 @@
     }, { threshold: [0.25, 0.45, 0.65], rootMargin: '-20% 0px -35% 0px' });
 
     sectionEls.forEach((section) => storyObserver.observe(section));
+
+    const sceneSequence = [
+      { key: 'hero', el: document.getElementById('hero') },
+      { key: 'why', el: whySection },
+      { key: 'transition', el: transitionSection },
+      { key: 'how', el: howSection },
+      { key: 'what', el: whatSection },
+      { key: 'agents', el: agentsSection },
+      { key: 'cta', el: ctaSection }
+    ].filter((s) => s.el);
+
+    function setActiveScene(sceneKey) {
+      document.body.dataset.scene = sceneKey;
+      sceneSequence.forEach((scene) => {
+        scene.el.classList.toggle('scene-active', scene.key === sceneKey);
+      });
+    }
+
+    const sceneObserver = new IntersectionObserver((entries) => {
+      let chosen = null;
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        if (!chosen || entry.intersectionRatio > chosen.intersectionRatio) chosen = entry;
+      });
+      if (!chosen) return;
+      const targetScene = sceneSequence.find((s) => s.el === chosen.target);
+      if (targetScene) setActiveScene(targetScene.key);
+    }, { threshold: [0.35, 0.55, 0.75], rootMargin: '-15% 0px -30% 0px' });
+
+    sceneSequence.forEach((scene) => sceneObserver.observe(scene.el));
 
     document.querySelectorAll('.layer-list').forEach((list) => {
       const items = list.querySelectorAll('.layer.reveal');
@@ -2572,6 +2692,27 @@
       if (e.key === 'Escape' && agentModal && agentModal.classList.contains('open')) closeAgentModal();
     });
 
+    let timelineTicking = false;
+    function runSceneTimelines() {
+      timelineTicking = false;
+      if (!reducedMotion) {
+        updateWhyTimeline();
+        updateHowTimeline();
+      } else {
+        if (whySection) whySection.dataset.stage = '4';
+        if (howSection) howSection.dataset.stage = '5';
+        setWhyState(4, true);
+        setHowState(5, true);
+      }
+    }
+    function requestTimelineUpdate() {
+      if (timelineTicking) return;
+      timelineTicking = true;
+      requestAnimationFrame(runSceneTimelines);
+    }
+    window.addEventListener('scroll', requestTimelineUpdate, { passive: true });
+    window.addEventListener('resize', requestTimelineUpdate);
+
     initFlowCanvas();
     window.addEventListener('resize', initFlowCanvas);
     window.addEventListener('beforeunload', () => cancelAnimationFrame(flowAnimId));
@@ -2579,6 +2720,8 @@
     setHowState(0, false);
     setWhyState(0, false);
     setWhatState(0, false);
+    setActiveScene('hero');
+    runSceneTimelines();
   </script>
 </body>
 </html>
