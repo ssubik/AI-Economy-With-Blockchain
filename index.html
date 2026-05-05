@@ -716,6 +716,37 @@
     #product.what-punch .what-module {
       box-shadow: 0 0 0 1px rgba(124,58,237,.25), 0 0 28px rgba(124,58,237,.18);
     }
+    #product .what-module {
+      opacity: 0;
+      transform: translateX(34px) scale(.98);
+      transition: opacity .28s ease-out, transform .28s ease-out, box-shadow .22s ease-out, border-color .22s ease-out;
+    }
+    #product .what-module.wm-1 { transform: translateX(-34px) scale(.98); }
+    #product[data-frame="2"] .wm-1,
+    #product[data-frame="3"] .wm-1,
+    #product[data-frame="4"] .wm-1,
+    #product[data-frame="5"] .wm-1 {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    #product[data-frame="3"] .wm-2,
+    #product[data-frame="4"] .wm-2,
+    #product[data-frame="5"] .wm-2 {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    #product[data-frame="4"] .wm-3,
+    #product[data-frame="5"] .wm-3 {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    #product[data-frame="5"] .wm-4 {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+    }
+    #product:not([data-frame="5"]) .what-module {
+      pointer-events: none;
+    }
 
     .reveal {
       opacity: 0;
@@ -794,20 +825,31 @@
     .why-overlay .orbit-core,
     .why-overlay .orbit-ring,
     .why-overlay .ring-label,
-    .why-overlay .why-signal {
+    .why-overlay .why-signal,
+    .why-overlay .why-caption {
       opacity: 0;
       transition: opacity .55s ease, transform .55s ease;
     }
-    #why[data-stage="1"] .why-overlay .orbit-core { opacity: 1; }
-    #why[data-stage="2"] .why-overlay .orbit-core,
-    #why[data-stage="2"] .why-overlay .orbit-ring { opacity: 1; }
-    #why[data-stage="3"] .why-overlay .orbit-core,
-    #why[data-stage="3"] .why-overlay .orbit-ring,
-    #why[data-stage="3"] .why-overlay .ring-label { opacity: .9; }
-    #why[data-stage="4"] .why-overlay .orbit-core,
-    #why[data-stage="4"] .why-overlay .orbit-ring,
-    #why[data-stage="4"] .why-overlay .ring-label,
-    #why[data-stage="4"] .why-overlay .why-signal { opacity: 1; }
+    #why[data-frame="1"] .why-overlay .orbit-core { opacity: 1; }
+    #why[data-frame="2"] .why-overlay .orbit-core,
+    #why[data-frame="2"] .why-overlay .ring-measure { opacity: 1; }
+    #why[data-frame="3"] .why-overlay .orbit-core,
+    #why[data-frame="3"] .why-overlay .ring-measure,
+    #why[data-frame="3"] .why-overlay .ring-price { opacity: 1; }
+    #why[data-frame="4"] .why-overlay .orbit-core,
+    #why[data-frame="4"] .why-overlay .ring-measure,
+    #why[data-frame="4"] .why-overlay .ring-price,
+    #why[data-frame="4"] .why-overlay .ring-govern,
+    #why[data-frame="4"] .why-overlay .ring-label { opacity: .92; }
+    #why[data-frame="5"] .why-overlay .orbit-core,
+    #why[data-frame="5"] .why-overlay .orbit-ring,
+    #why[data-frame="5"] .why-overlay .ring-label,
+    #why[data-frame="5"] .why-overlay .why-signal { opacity: 1; }
+    #why[data-frame="6"] .why-overlay .orbit-core,
+    #why[data-frame="6"] .why-overlay .orbit-ring,
+    #why[data-frame="6"] .why-overlay .ring-label,
+    #why[data-frame="6"] .why-overlay .why-signal,
+    #why[data-frame="6"] .why-overlay .why-caption { opacity: 1; }
     .orbital-grid {
       position: absolute;
       inset: 0;
@@ -867,7 +909,10 @@
       box-shadow: 0 0 16px rgba(0,209,255,.8);
       transform: translate(-50%, -50%);
       animation: whyFlow 6.8s ease-in-out infinite;
+      animation-play-state: paused;
     }
+    #why[data-frame="5"] .why-signal,
+    #why[data-frame="6"] .why-signal { animation-play-state: running; }
     .why-caption {
       position: absolute;
       left: 50%;
@@ -2521,13 +2566,25 @@
       return clamp01((start - rect.top) / Math.max(total, 1));
     }
 
+    function frameFromProgress(progress, points) {
+      for (let i = 0; i < points.length; i++) {
+        if (progress < points[i]) return i + 1;
+      }
+      return points.length + 1;
+    }
+
     function updateWhyTimeline() {
       if (!whySection) return;
-      const p = sectionProgress(whySection, window.innerWidth <= 900 ? 0.65 : 0.58);
-      const stage = p < 0.24 ? 1 : p < 0.5 ? 2 : p < 0.76 ? 3 : 4;
-      whySection.dataset.stage = String(stage);
-      whyStep = Math.max(whyStep, stage);
-      setWhyState(stage, stage >= 4);
+      const p = sectionProgress(whySection, window.innerWidth <= 900 ? 0.68 : 0.58);
+      const frame = window.innerWidth <= 900
+        ? (p < 0.22 ? 1 : p < 0.44 ? 3 : p < 0.66 ? 5 : 6)
+        : frameFromProgress(p, [0.2, 0.35, 0.5, 0.65, 0.85]);
+      whySection.dataset.frame = String(frame);
+
+      const storyStep = frame <= 2 ? 1 : frame <= 3 ? 2 : frame <= 4 ? 3 : 4;
+      const punch = frame >= 6;
+      whyStep = Math.max(whyStep, storyStep);
+      setWhyState(storyStep, punch);
     }
 
     function updateHowTimeline() {
@@ -2537,6 +2594,23 @@
       howSection.dataset.stage = String(stage);
       howStep = Math.max(howStep, stage);
       setHowState(stage, p > 0.86);
+    }
+
+    function updateWhatTimeline() {
+      if (!whatSection) return;
+      if (window.innerWidth <= 900) {
+        whatSection.dataset.frame = '5';
+        whatStep = Math.max(whatStep, 4);
+        setWhatState(4, true);
+        return;
+      }
+      const p = sectionProgress(whatSection, 0.58);
+      const frame = frameFromProgress(p, [0.2, 0.4, 0.6, 0.8]);
+      whatSection.dataset.frame = String(frame);
+      const step = frame <= 1 ? 1 : frame === 2 ? 1 : frame === 3 ? 2 : frame === 4 ? 3 : 4;
+      const punch = frame >= 5;
+      whatStep = Math.max(whatStep, step);
+      setWhatState(step, punch);
     }
 
     const revealObserver = new IntersectionObserver((entries) => {
@@ -2698,11 +2772,14 @@
       if (!reducedMotion) {
         updateWhyTimeline();
         updateHowTimeline();
+        updateWhatTimeline();
       } else {
-        if (whySection) whySection.dataset.stage = '4';
+        if (whySection) whySection.dataset.frame = '6';
         if (howSection) howSection.dataset.stage = '5';
+        if (whatSection) whatSection.dataset.frame = '5';
         setWhyState(4, true);
         setHowState(5, true);
+        setWhatState(4, true);
       }
     }
     function requestTimelineUpdate() {
