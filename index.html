@@ -577,6 +577,7 @@
       position: relative;
       overflow: hidden;
       isolation: isolate;
+      min-height: 420px;
     }
     .how-diagram::before {
       content: "";
@@ -588,91 +589,55 @@
       background-size: 24px 24px;
       pointer-events: none;
     }
-    .how-canvas {
+    .how-canvas-wrap {
       position: relative;
       z-index: 2;
-      overflow: hidden;
+      min-height: 360px;
       border-radius: var(--radius-md);
-    }
-    .how-flow {
-      display: grid;
-      gap: var(--space-2);
-    }
-    .how-flow-row {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr) 44px minmax(0, 1fr);
-      gap: var(--space-2);
-      align-items: center;
-    }
-    .how-flow-bridge {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
-      align-items: center;
-      gap: var(--space-2);
-    }
-    .bridge-spacer {
-      min-height: 12px;
-    }
-    .flow-arrow {
-      display: grid;
-      place-items: center;
-      min-height: 24px;
-      color: rgba(132,174,194,.58);
-      font-size: 1rem;
-      line-height: 1;
-      letter-spacing: .02em;
-      user-select: none;
-      opacity: .75;
-      transition: color .28s ease, text-shadow .28s ease, opacity .28s ease;
-    }
-    .flow-arrow.active {
-      color: rgba(0,209,255,.95);
-      text-shadow: 0 0 10px rgba(0,209,255,.35);
-      opacity: 1;
-    }
-    .flow-arrow.down { margin: 0; }
-    .how-node {
-      position: static;
-      width: 100%;
-      min-height: 120px;
-      border: 1px solid rgba(0,209,255,.45);
-      border-radius: var(--radius-sm);
-      padding: var(--space-3);
-      background: rgba(11,15,21,.8);
-      color: #dbe3f0;
-      font-size: .84rem;
-      line-height: 1.35;
-      cursor: pointer;
-      transition: border-color .28s ease, box-shadow .28s ease, background-color .28s ease;
-      text-align: left;
       overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at 50% 48%, rgba(37,99,235,.12), transparent 54%),
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px),
+        rgba(6, 11, 18, .6);
+      background-size: auto, 28px 28px, 28px 28px, auto;
     }
-    .how-node b { display: block; color: #f4fbff; margin-bottom: .35rem; font-size: .92rem; }
-    .how-node small {
+    #flowCanvas {
       display: block;
-      color: #b8cadb;
-      font-size: .78rem;
-      line-height: 1.5;
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
     }
-    .how-node:hover, .how-node:focus-visible { border-color: rgba(0,209,255,.62); }
-    .how-node.active {
-      border-color: rgba(0,209,255,.72);
-      background: rgba(7,28,38,.84);
-      box-shadow: 0 0 0 1px rgba(0,209,255,.22), 0 0 12px rgba(0,209,255,.14);
+    .flow-labels {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
-    .how-panel {
-      margin-top: var(--space-2);
-      border: 1px solid rgba(0,209,255,.28);
-      border-radius: var(--radius-sm);
-      background: rgba(4,18,25,.62);
-      padding: var(--space-2);
-      z-index: 2;
-      position: relative;
-      min-height: 74px;
+    .flow-label {
+      position: absolute;
+      left: calc(var(--x) * 100%);
+      top: calc(var(--y) * 100%);
+      transform: translate(-50%, calc(-100% - 18px));
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(5,9,15,.78);
+      color: #dbe6f5;
+      font-size: .72rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 18px rgba(0,0,0,.34);
+      transition: border-color .3s ease, color .3s ease, box-shadow .3s ease;
     }
-    .how-panel-title { color: #bcefff; font-size: .73rem; letter-spacing: .13em; text-transform: uppercase; margin-bottom: .35rem; }
-    .how-panel-text { color: #d6e6f7; font-size: .9rem; line-height: 1.45; }
-    #how.how-punch .how-node { box-shadow: 0 0 0 1px rgba(0,209,255,.28), 0 0 14px rgba(0,209,255,.16); }
+    .flow-label.active {
+      color: #eff8ff;
+      border-color: rgba(0,209,255,.5);
+      box-shadow: 0 10px 24px rgba(0,209,255,.18);
+    }
+    #how.how-punch .flow-label { border-color: rgba(0,209,255,.45); }
     #how.how-punch .story-punchline { text-shadow: 0 0 28px rgba(0,209,255,.36); }
 
     .what-module.active-map {
@@ -1165,7 +1130,7 @@
     @media (prefers-reduced-motion: reduce) {
       .pulse, .bar i, .agent.top::before, .live-pulse, .orbit-ring, .flow-dot, .data-viz::after, .why-ring, .why-node, .hero-badge.b2, .hero-badge.b3, .proposal .bar i { animation: none !important; }
       .hover-lift, .btn { transition: none !important; }
-      .reveal, .hero-seq, .why-title .line > span, .mega-word, .story-map a, .layer-list::before, .story-line, .story-punchline, .how-node, .flow-arrow { transition: none !important; }
+      .reveal, .hero-seq, .why-title .line > span, .mega-word, .story-map a, .layer-list::before, .story-line, .story-punchline, .flow-label { transition: none !important; }
       .reveal, .hero-seq { opacity: 1 !important; transform: none !important; filter: none !important; }
       .why-title .line > span { opacity: 1 !important; transform: none !important; filter: none !important; }
       .story-line, .story-punchline { opacity: 1 !important; transform: none !important; filter: none !important; }
@@ -1230,16 +1195,14 @@
       .module-title { align-items: flex-start; }
     }
     @media (max-width: 768px) {
-      .how-flow-row,
-      .how-flow-bridge {
-        grid-template-columns: 1fr;
+      .how-diagram { min-height: 500px; }
+      .how-canvas-wrap { min-height: 440px; }
+      #flowCanvas { min-height: 440px; }
+      .flow-label {
+        font-size: .66rem;
+        letter-spacing: .06em;
+        padding: 5px 8px;
       }
-      .bridge-spacer {
-        display: none;
-      }
-      .flow-arrow { font-size: .95rem; }
-      .flow-arrow.horizontal { transform: rotate(90deg); }
-      .how-node { min-height: 112px; padding: 20px; }
     }
     @media (hover: none) and (pointer: coarse) {
       .hover-lift:hover,
@@ -1419,50 +1382,16 @@
           </div>
         </div>
         <div class="how-diagram reveal" aria-label="Interactive HOW system diagram">
-          <div class="how-canvas" id="how-canvas">
-            <div class="how-flow">
-              <div class="how-flow-row">
-                <button class="how-node" data-node="1" type="button">
-                  <b>Agent Action</b>
-                  <small>Agents decide.</small>
-                </button>
-                <span class="flow-arrow horizontal" data-flow-link="1-2" aria-hidden="true">→</span>
-                <button class="how-node" data-node="2" type="button">
-                  <b>Recorded Trace</b>
-                  <small>Actions become evidence.</small>
-                </button>
-                <span class="flow-arrow horizontal" data-flow-link="2-3" aria-hidden="true">→</span>
-                <button class="how-node" data-node="3" type="button">
-                  <b>Verifiable Transaction</b>
-                  <small>Evidence becomes proof.</small>
-                </button>
-              </div>
-              <div class="how-flow-bridge">
-                <span class="bridge-spacer" aria-hidden="true"></span>
-                <span class="flow-arrow down" data-flow-link="3-4" aria-hidden="true">↓</span>
-                <span class="bridge-spacer" aria-hidden="true"></span>
-              </div>
-              <div class="how-flow-row">
-                <button class="how-node" data-node="4" type="button">
-                  <b>Performance Economy</b>
-                  <small>Performance creates value.</small>
-                </button>
-                <span class="flow-arrow horizontal" data-flow-link="4-5" aria-hidden="true">→</span>
-                <button class="how-node" data-node="5" type="button">
-                  <b>Blockchain Provenance</b>
-                  <small>History anchors trust.</small>
-                </button>
-                <span class="flow-arrow horizontal" data-flow-link="5-6" aria-hidden="true">→</span>
-                <button class="how-node" data-node="6" type="button">
-                  <b>Governance Stabilizer</b>
-                  <small>Rules evolve.</small>
-                </button>
-              </div>
+          <div class="how-canvas-wrap">
+            <canvas id="flowCanvas" aria-hidden="true"></canvas>
+            <div class="flow-labels" id="flowLabels">
+              <div class="flow-label" data-node="agent">Agent Action</div>
+              <div class="flow-label" data-node="trace">Recorded Trace</div>
+              <div class="flow-label" data-node="tx">Verifiable Transaction</div>
+              <div class="flow-label" data-node="economy">Performance Economy</div>
+              <div class="flow-label" data-node="provenance">Blockchain Provenance</div>
+              <div class="flow-label" data-node="governance">Governance Stabilizer</div>
             </div>
-          </div>
-          <div class="how-panel" id="how-panel">
-            <div class="how-panel-title" id="how-panel-title">System Node</div>
-            <div class="how-panel-text" id="how-panel-text">Agents make decisions inside deterministic environments.</div>
           </div>
         </div>
         <div class="layer-list reveal">
@@ -1771,20 +1700,22 @@
     let whyStep = 0;
     let howStep = 0;
     let whatStep = 0;
-
-    const howNodeDetails = {
-      1: { title: 'Agent Action', text: 'Agents make decisions inside deterministic environments.' },
-      2: { title: 'Recorded Trace', text: 'Every move, action, and result becomes structured evidence.' },
-      3: { title: 'Verifiable Transaction', text: 'Critical actions are converted into verifiable economic events.' },
-      4: { title: 'Performance Economy', text: 'Repeated outcomes create ranking, reputation, and value.' },
-      5: { title: 'Blockchain Provenance', text: 'Ownership, history, and results are anchored on-chain.' },
-      6: { title: 'Governance Stabilizer', text: 'The community updates rules as agents and markets evolve.' }
+    const flowLabels = Array.from(document.querySelectorAll('.flow-label'));
+    const flowCanvas = document.getElementById('flowCanvas');
+    const flowWrap = flowCanvas ? flowCanvas.parentElement : null;
+    const flowCtx = flowCanvas ? flowCanvas.getContext('2d') : null;
+    const flowPalette = ['#00D1FF', '#7C3AED', '#2563EB'];
+    let flowAnimId = 0;
+    let flowParticles = [];
+    let flowState = {
+      nodes: [],
+      edges: [],
+      activeNodes: new Set(['agent']),
+      activeEdges: new Set(),
+      width: 0,
+      height: 0,
+      dpr: 1
     };
-
-    const howPanelTitle = document.getElementById('how-panel-title');
-    const howPanelText = document.getElementById('how-panel-text');
-    const howNodes = Array.from(document.querySelectorAll('.how-node'));
-    const howArrows = Array.from(document.querySelectorAll('[data-flow-link]'));
 
     function setWhyState(step, punch) {
       if (!whySection) return;
@@ -1795,42 +1726,187 @@
       whySection.classList.toggle('why-punch', punch);
     }
 
-    let pinnedHowNode = 1;
-    let hoverHowNode = null;
-    function updateHowPanel(nodeId) {
-      const d = howNodeDetails[nodeId] || howNodeDetails[1];
-      howPanelTitle.textContent = d.title;
-      howPanelText.textContent = d.text;
+    function getFlowNodeTemplate() {
+      if (window.innerWidth <= 768) {
+        return [
+          { id: 'agent', x: 0.5, y: 0.12 },
+          { id: 'trace', x: 0.5, y: 0.26 },
+          { id: 'tx', x: 0.5, y: 0.4 },
+          { id: 'economy', x: 0.5, y: 0.56 },
+          { id: 'provenance', x: 0.5, y: 0.72 },
+          { id: 'governance', x: 0.5, y: 0.86 }
+        ];
+      }
+      return [
+        { id: 'agent', x: 0.2, y: 0.3 },
+        { id: 'trace', x: 0.5, y: 0.2 },
+        { id: 'tx', x: 0.8, y: 0.3 },
+        { id: 'economy', x: 0.2, y: 0.7 },
+        { id: 'provenance', x: 0.5, y: 0.8 },
+        { id: 'governance', x: 0.8, y: 0.7 }
+      ];
     }
 
-    function connectorActive(link, activeIds) {
-      const [a, b] = link.split('-').map(Number);
-      return activeIds.includes(a) && activeIds.includes(b);
+    function getFlowEdges() {
+      return [
+        ['agent', 'trace'],
+        ['trace', 'tx'],
+        ['tx', 'economy'],
+        ['economy', 'provenance'],
+        ['provenance', 'governance']
+      ];
+    }
+
+    function buildFlowGeometry() {
+      if (!flowCanvas || !flowWrap || !flowCtx) return;
+      const rect = flowWrap.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.floor(rect.width));
+      const height = Math.max(1, Math.floor(rect.height));
+      flowCanvas.width = Math.floor(width * dpr);
+      flowCanvas.height = Math.floor(height * dpr);
+      flowCanvas.style.width = `${width}px`;
+      flowCanvas.style.height = `${height}px`;
+      flowCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      flowState.width = width;
+      flowState.height = height;
+      flowState.dpr = dpr;
+
+      const template = getFlowNodeTemplate();
+      const nodes = template.map((node) => ({
+        ...node,
+        px: node.x * width,
+        py: node.y * height
+      }));
+      const nodeMap = new Map(nodes.map((node) => [node.id, node]));
+      const edges = getFlowEdges().map(([from, to]) => ({
+        from,
+        to,
+        a: nodeMap.get(from),
+        b: nodeMap.get(to)
+      })).filter((edge) => edge.a && edge.b);
+
+      flowState.nodes = nodes;
+      flowState.edges = edges;
+      flowLabels.forEach((label) => {
+        const id = label.dataset.node;
+        const node = nodeMap.get(id);
+        if (!node) return;
+        label.style.setProperty('--x', node.x.toFixed(4));
+        label.style.setProperty('--y', node.y.toFixed(4));
+      });
+    }
+
+    function createFlowParticles() {
+      if (!flowState.edges.length) return;
+      const particleCount = window.innerWidth <= 768 ? 42 : 72;
+      flowParticles = Array.from({ length: particleCount }, (_, i) => {
+        const edgeIndex = i % flowState.edges.length;
+        return {
+          edgeIndex,
+          progress: Math.random(),
+          speed: 0.002 + Math.random() * 0.002,
+          radius: 1.6 + Math.random() * 1.6,
+          color: flowPalette[i % flowPalette.length]
+        };
+      });
+    }
+
+    function drawFlowFrame(timeMs, staticFrame = false) {
+      if (!flowCtx || !flowCanvas) return;
+      const { width, height, nodes, edges, activeNodes, activeEdges } = flowState;
+      flowCtx.clearRect(0, 0, width, height);
+
+      edges.forEach((edge, index) => {
+        const isActive = activeEdges.has(index);
+        flowCtx.strokeStyle = isActive ? 'rgba(0, 209, 255, 0.45)' : 'rgba(160, 170, 190, 0.28)';
+        flowCtx.lineWidth = isActive ? 2 : 1.2;
+        flowCtx.beginPath();
+        flowCtx.moveTo(edge.a.px, edge.a.py);
+        flowCtx.lineTo(edge.b.px, edge.b.py);
+        flowCtx.stroke();
+      });
+
+      flowParticles.forEach((particle) => {
+        const edge = edges[particle.edgeIndex];
+        if (!edge) return;
+        particle.progress += particle.speed;
+        if (particle.progress >= 1) {
+          particle.progress = 0;
+          particle.edgeIndex = (particle.edgeIndex + 1) % edges.length;
+        }
+        const currentEdge = edges[particle.edgeIndex];
+        const x = currentEdge.a.px + (currentEdge.b.px - currentEdge.a.px) * particle.progress;
+        const y = currentEdge.a.py + (currentEdge.b.py - currentEdge.a.py) * particle.progress;
+        flowCtx.beginPath();
+        flowCtx.fillStyle = particle.color;
+        flowCtx.globalAlpha = activeEdges.has(particle.edgeIndex) ? 0.95 : 0.75;
+        flowCtx.shadowColor = particle.color;
+        flowCtx.shadowBlur = 12;
+        flowCtx.arc(x, y, particle.radius, 0, Math.PI * 2);
+        flowCtx.fill();
+      });
+
+      nodes.forEach((node, idx) => {
+        const pulse = 0.5 + (Math.sin(timeMs * 0.0018 + idx * 0.8) + 1) * 0.18;
+        const active = activeNodes.has(node.id);
+        const color = flowPalette[idx % flowPalette.length];
+        flowCtx.beginPath();
+        flowCtx.fillStyle = color;
+        flowCtx.globalAlpha = active ? 0.9 : 0.65;
+        flowCtx.shadowColor = color;
+        flowCtx.shadowBlur = active ? 26 : 14;
+        flowCtx.arc(node.px, node.py, active ? 6.5 + pulse : 5 + pulse * 0.6, 0, Math.PI * 2);
+        flowCtx.fill();
+
+        flowCtx.beginPath();
+        flowCtx.strokeStyle = active ? 'rgba(0,209,255,.62)' : 'rgba(130,145,170,.38)';
+        flowCtx.lineWidth = 1.2;
+        flowCtx.globalAlpha = active ? 0.9 : 0.6;
+        flowCtx.arc(node.px, node.py, active ? 16 + pulse * 2.4 : 13 + pulse * 1.2, 0, Math.PI * 2);
+        flowCtx.stroke();
+      });
+
+      flowCtx.globalAlpha = 1;
+      flowCtx.shadowBlur = 0;
+      if (!staticFrame) flowAnimId = requestAnimationFrame(drawFlowFrame);
+    }
+
+    function initFlowCanvas() {
+      if (!flowCanvas || !flowCtx) return;
+      buildFlowGeometry();
+      createFlowParticles();
+      cancelAnimationFrame(flowAnimId);
+      if (reducedMotion) {
+        drawFlowFrame(0, true);
+        cancelAnimationFrame(flowAnimId);
+        return;
+      }
+      flowAnimId = requestAnimationFrame(drawFlowFrame);
     }
 
     function setHowState(step, punch) {
       if (!howSection) return;
-      const stepNodes = {
-        0: [1],
-        1: [1],
-        2: [1,2,3],
-        3: [1,2,3,4],
-        4: [1,2,3,4,5],
-        5: [1,2,3,4,5,6]
+      const stepNodeMap = {
+        0: ['agent'],
+        1: ['agent'],
+        2: ['agent', 'trace', 'tx'],
+        3: ['agent', 'trace', 'tx', 'economy'],
+        4: ['agent', 'trace', 'tx', 'economy', 'provenance'],
+        5: ['agent', 'trace', 'tx', 'economy', 'provenance', 'governance']
       };
-      const base = stepNodes[Math.max(0, Math.min(5, step))] || [1];
-      const focus = hoverHowNode || pinnedHowNode;
-      const active = Array.from(new Set([...base, focus]));
+      const activeNodes = new Set(stepNodeMap[Math.max(0, Math.min(5, step))] || ['agent']);
+      const activeEdges = new Set();
+      flowState.edges.forEach((edge, index) => {
+        if (activeNodes.has(edge.from) && activeNodes.has(edge.to)) activeEdges.add(index);
+      });
+      flowState.activeNodes = activeNodes;
+      flowState.activeEdges = activeEdges;
       howSection.classList.toggle('how-punch', punch);
-      howNodes.forEach((node) => {
-        const id = Number(node.dataset.node);
-        node.classList.toggle('active', active.includes(id));
+      flowLabels.forEach((label) => {
+        const nodeId = label.dataset.node;
+        label.classList.toggle('active', activeNodes.has(nodeId));
       });
-      howArrows.forEach((arrow) => {
-        const link = arrow.getAttribute('data-flow-link') || '';
-        arrow.classList.toggle('active', connectorActive(link, active));
-      });
-      updateHowPanel(focus);
     }
 
     function setWhatState(step, punch) {
@@ -1924,21 +2000,9 @@
       if (punch) punch.style.transitionDelay = `${0.1 + lines.length * 0.14}s`;
     });
 
-    howNodes.forEach((node) => {
-      const id = Number(node.dataset.node);
-      node.addEventListener('mouseenter', () => {
-        hoverHowNode = id;
-        setHowState(howStep, howSection.classList.contains('how-punch'));
-      });
-      node.addEventListener('mouseleave', () => {
-        hoverHowNode = null;
-        setHowState(howStep, howSection.classList.contains('how-punch'));
-      });
-      node.addEventListener('click', () => {
-        pinnedHowNode = id;
-        setHowState(howStep, howSection.classList.contains('how-punch'));
-      });
-    });
+    initFlowCanvas();
+    window.addEventListener('resize', initFlowCanvas);
+    window.addEventListener('beforeunload', () => cancelAnimationFrame(flowAnimId));
 
     setHowState(0, false);
     setWhyState(0, false);
