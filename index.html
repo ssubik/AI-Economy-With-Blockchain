@@ -1142,6 +1142,136 @@
     .trace-list span { overflow-wrap: anywhere; }
     .product-grid > * { min-width: 0; }
 
+    /* Data + Governance readability pass */
+    #data.module,
+    #governance.module {
+      padding: clamp(20px, 3vw, 32px);
+    }
+    #data .module-title,
+    #governance .module-title {
+      margin-bottom: var(--space-2);
+    }
+    #data .module-title h3,
+    #governance .module-title h3 {
+      font-size: clamp(22px, 2.2vw, 32px);
+      line-height: 1.1;
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -.01em;
+    }
+    #data > p,
+    #governance > p {
+      font-size: clamp(15px, 1.2vw, 17px);
+      line-height: 1.72;
+      color: rgba(255,255,255,0.75);
+    }
+    #data .module-heading,
+    #governance .module-heading {
+      align-items: center;
+      gap: 10px;
+    }
+    #data .chip.demo,
+    #governance .chip.demo {
+      font-size: 11px;
+      letter-spacing: .08em;
+      opacity: .62;
+      color: rgba(255,255,255,.78);
+      border-color: rgba(255,255,255,.2);
+      background: rgba(255,255,255,.02);
+      padding: 2px 8px;
+    }
+    #data .chips {
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    #data .chip.green,
+    #data .chip.cyan {
+      color: rgba(210, 240, 255, .88);
+      border-color: rgba(0,209,255,.26);
+      background: rgba(0,209,255,.05);
+    }
+    #data .data-grid-tight {
+      margin-top: clamp(16px, 2vw, 24px);
+    }
+    #data .data-image,
+    #governance .governance-image {
+      border-radius: var(--radius-sm);
+      box-shadow: 0 8px 24px rgba(0,0,0,.24);
+    }
+    #data .data-viz {
+      margin: 10px 0 12px;
+      min-height: 150px;
+      border-color: rgba(255,255,255,.12);
+      background: rgba(7,12,19,.5);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      gap: 6px;
+    }
+    #data .col {
+      background: linear-gradient(180deg, rgba(0,209,255,.65), rgba(124,58,237,.35));
+      opacity: .85;
+    }
+    #data .trace-list {
+      gap: 8px;
+      color: rgba(188, 214, 238, .86);
+      font-size: .78rem;
+      line-height: 1.55;
+    }
+    #data pre {
+      margin-top: 10px;
+      font-size: .82rem;
+      line-height: 1.62;
+      padding: 14px;
+      border-color: rgba(255,255,255,.14);
+      background: rgba(4,9,14,.6);
+      color: #cae9ff;
+      box-shadow: none;
+    }
+    #governance .governance-grid {
+      margin-top: clamp(16px, 2vw, 24px);
+      gap: clamp(16px, 2vw, 24px);
+    }
+    #governance .proposal {
+      margin-top: 12px;
+      padding: 14px 14px 12px;
+      border-color: rgba(255,255,255,.12);
+      border-radius: 14px;
+      background: rgba(9,14,22,.74);
+      box-shadow: none;
+    }
+    #governance .proposal::after {
+      height: 1px;
+      opacity: .42;
+      background: linear-gradient(90deg, transparent, rgba(0,209,255,.42), transparent);
+    }
+    #governance .proposal .row {
+      align-items: baseline;
+      gap: 10px;
+    }
+    #governance .proposal .row strong {
+      color: #f3f7ff;
+      font-size: .96rem;
+      line-height: 1.45;
+      font-weight: 600;
+    }
+    #governance .proposal .status {
+      font-size: 11px;
+      opacity: .72;
+      padding: 2px 8px;
+      border-color: rgba(255,255,255,.2);
+    }
+    #governance .proposal .bar {
+      margin-top: 8px;
+      height: 4px;
+      background: rgba(255,255,255,.1);
+    }
+    #governance .proposal p.mono {
+      margin-top: 8px;
+      font-size: .74rem;
+      line-height: 1.5;
+      color: rgba(186, 208, 229, .78);
+    }
+
     footer { padding: 2.2rem 0 2.8rem; color: var(--muted); font-size: .82rem; }
 
     @keyframes pulse {
