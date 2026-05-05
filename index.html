@@ -21,8 +21,17 @@
       --text: #FFFFFF;
       --muted: #A0A7B4;
       --border: rgba(255,255,255,0.08);
-      --radius-lg: 1.15rem;
-      --section-gap: clamp(7.5rem, 10vw, 9.5rem);
+      --space-1: 8px;
+      --space-2: 16px;
+      --space-3: 24px;
+      --space-4: 40px;
+      --space-5: 64px;
+      --radius-lg: 24px;
+      --radius-md: 20px;
+      --radius-sm: 18px;
+      --section-gap: clamp(var(--space-4), 7vw, var(--space-5));
+      --container-pad: 40px;
+      --card-padding: var(--space-3);
     }
 
     * { box-sizing: border-box; }
@@ -58,13 +67,31 @@
       height: 100%;
       z-index: 0;
       pointer-events: none;
-      opacity: .48;
+      opacity: .34;
     }
 
-    .container { width: min(1200px, 92vw); margin: 0 auto; position: relative; z-index: 2; }
+    .site-container,
+    .container {
+      width: min(1120px, calc(100% - var(--container-pad)));
+      margin-inline: auto;
+      position: relative;
+      z-index: 2;
+    }
+    .site-container-wide {
+      width: min(1240px, calc(100% - 40px));
+      margin-inline: auto;
+      position: relative;
+      z-index: 2;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 520px);
+      gap: clamp(32px, 5vw, 72px);
+      align-items: center;
+    }
     .section { padding: var(--section-gap) 0; }
     .section + .section { border-top: 1px solid rgba(255,255,255,.06); }
-    section[id] { scroll-margin-top: 92px; }
+    section[id] { scroll-margin-top: 96px; }
     .eyebrow { text-transform: uppercase; letter-spacing: .16em; font-size: .72rem; color: var(--cyan); font-weight: 700; }
     .display {
       font-family: "Cinzel", "Times New Roman", serif;
@@ -74,20 +101,28 @@
     }
     h2.display { font-size: clamp(2.1rem, 5.5vw, 4.8rem); }
     h3 { margin: 0 0 .55rem; }
-    p { margin: 0; color: var(--muted); }
+    p { margin: 0; color: var(--muted); line-height: 1.65; }
     .mono { font-family: "JetBrains Mono", "SFMono-Regular", monospace; font-size: .75rem; color: #9de4ff; }
 
     .glass {
       border: 1px solid var(--border);
       background: linear-gradient(180deg, rgba(16, 23, 34, .7), rgba(11, 15, 21, .9));
+      border-radius: var(--radius-md);
+      box-shadow: 0 18px 42px rgba(0,0,0,.36), inset 0 1px 0 rgba(255,255,255,.03);
+    }
+    .panel-card {
+      position: relative;
+      overflow: hidden;
       border-radius: var(--radius-lg);
-      box-shadow: 0 22px 56px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.03);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(11,15,21,0.78);
+      padding: var(--card-padding);
     }
 
     .header {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 20;
       height: 72px;
       border-bottom: 1px solid rgba(255,255,255,.1);
       background: rgba(2,4,8,.8);
@@ -194,27 +229,29 @@
     .hero h1.display { font-size: clamp(3.6rem, 11vw, 10.2rem); margin: 1.1rem auto .85rem; max-width: 11ch; line-height: .89; }
     .grad { background: linear-gradient(90deg, #00D1FF 0%, #4ac6ff 45%, #7C3AED 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .hero-sub { max-width: 58ch; margin: 0 auto; font-size: 1.02rem; }
-    .hero-actions { margin-top: 1.3rem; display: flex; gap: .72rem; justify-content: center; flex-wrap: wrap; }
+    .hero-actions { margin-top: var(--space-3); display: flex; gap: var(--space-2); justify-content: center; flex-wrap: wrap; }
     .hero-actions .btn { min-height: 46px; padding: .8rem 1.18rem; }
     .hero-stats {
-      margin-top: 2.35rem;
+      margin-top: var(--space-4);
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: .7rem;
+      gap: var(--space-2);
       max-width: 820px;
       margin-left: auto;
       margin-right: auto;
     }
-    .stat { padding: .9rem; text-align: left; border: 1px solid var(--border); border-radius: .9rem; background: rgba(11,15,21,.86); }
+    .stat { padding: var(--space-2); text-align: left; border: 1px solid var(--border); border-radius: var(--radius-sm); background: rgba(11,15,21,.86); overflow: hidden; }
     .stat strong { display: block; color: var(--green); font-size: 1.14rem; }
     .stat span { color: var(--muted); font-size: .8rem; }
     .visual-frame {
       position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
       overflow: hidden;
-      border-radius: 28px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: linear-gradient(135deg, rgba(0,209,255,.08), rgba(124,58,237,.08));
-      box-shadow: 0 0 60px rgba(0,209,255,.12), inset 0 0 40px rgba(255,255,255,.03);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(255,255,255,0.1);
+      background: rgba(11,15,21,0.75);
+      box-shadow: 0 0 44px rgba(0,209,255,.1), inset 0 0 30px rgba(255,255,255,.03);
       isolation: isolate;
     }
     .visual-frame img {
@@ -223,10 +260,11 @@
       display: block;
       object-fit: cover;
       opacity: .93;
-      transform: scale(1.01);
-      transition: transform .35s ease;
     }
-    .visual-frame:hover img { transform: scale(1.05); }
+    .visual-frame.contain img {
+      object-fit: contain;
+      padding: 16px;
+    }
     .visual-frame::after {
       content: "";
       position: absolute;
@@ -287,7 +325,7 @@
     .story-map-wrap {
       position: sticky;
       top: 80px;
-      z-index: 90;
+      z-index: 10;
       margin-top: 0;
       padding: .45rem 0 .8rem;
       pointer-events: none;
@@ -326,16 +364,39 @@
 
     .story-section {
       position: relative;
-      overflow: clip;
+      overflow: hidden;
       --story-accent: rgba(0,209,255,.45);
       --story-accent-alt: rgba(124,58,237,.35);
     }
-    .story-kicker {
-      font-size: .74rem;
-      letter-spacing: .2em;
+    .section-kicker {
+      display: inline-block;
+      font-size: clamp(20px, 3vw, 48px);
+      letter-spacing: .26em;
       text-transform: uppercase;
-      color: #d2d8e3;
-      margin-bottom: .45rem;
+      font-weight: 700;
+      line-height: 1;
+      white-space: nowrap;
+      margin: 0 0 18px;
+      padding-bottom: .42rem;
+      border-bottom: 1px solid rgba(255,255,255,.2);
+      opacity: .94;
+      position: relative;
+      z-index: 3;
+    }
+    .section-theme-why .section-kicker {
+      color: #ffb8c0;
+      border-bottom-color: rgba(255,31,45,.44);
+      text-shadow: 0 0 18px rgba(255,31,45,.32), 0 0 14px rgba(124,58,237,.24);
+    }
+    .section-theme-how .section-kicker {
+      color: #b7f1ff;
+      border-bottom-color: rgba(0,209,255,.45);
+      text-shadow: 0 0 18px rgba(0,209,255,.35);
+    }
+    .section-theme-what .section-kicker {
+      color: #e7d2ff;
+      border-bottom-color: rgba(245,197,66,.44);
+      text-shadow: 0 0 18px rgba(124,58,237,.32), 0 0 14px rgba(245,197,66,.24);
     }
     .mega-word {
       position: absolute;
@@ -352,7 +413,7 @@
       pointer-events: none;
       user-select: none;
       transition: opacity 1.2s ease, filter 1.2s ease;
-      opacity: .22;
+      opacity: .045;
       filter: blur(1.2px);
       z-index: 1;
     }
@@ -368,7 +429,7 @@
       opacity: .44;
       pointer-events: none;
     }
-    .story-section.is-active .mega-word { opacity: .34; filter: blur(0); }
+    .story-section.is-active .mega-word { opacity: .06; filter: blur(0); }
     .narrative-block {
       border: 1px solid rgba(255,255,255,.11);
       border-radius: 1rem;
@@ -428,7 +489,7 @@
       padding-top: .95rem;
       border-top: 1px solid rgba(255,255,255,.12);
       font-size: clamp(1.1rem, 2.45vw, 1.5rem);
-      line-height: 1.2;
+      line-height: 1.3;
       font-weight: 700;
       letter-spacing: .01em;
       color: #f4f7ff;
@@ -506,15 +567,16 @@
     #why.why-punch .story-punchline { text-shadow: 0 0 28px rgba(255,31,45,.34); }
 
     .how-diagram {
-      margin-top: 1rem;
+      margin-top: var(--space-2);
       border: 1px solid rgba(0,209,255,.24);
-      border-radius: 1rem;
+      border-radius: var(--radius-lg);
       background:
         linear-gradient(180deg, rgba(7,18,28,.74), rgba(6,10,16,.9)),
         radial-gradient(700px 260px at 50% 0%, rgba(0,209,255,.08), transparent 70%);
-      padding: 1rem;
+      padding: var(--space-3);
       position: relative;
       overflow: hidden;
+      isolation: isolate;
     }
     .how-diagram::before {
       content: "";
@@ -528,72 +590,89 @@
     }
     .how-canvas {
       position: relative;
-      min-height: 400px;
       z-index: 2;
       overflow: hidden;
-      border-radius: .75rem;
+      border-radius: var(--radius-md);
     }
-    .how-lines {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
+    .how-flow {
+      display: grid;
+      gap: var(--space-2);
     }
-    .how-line {
-      stroke: rgba(110,171,195,.22);
-      stroke-width: 2;
-      transition: stroke .35s ease, filter .35s ease, opacity .35s ease;
-      opacity: .7;
+    .how-flow-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr) 44px minmax(0, 1fr);
+      gap: var(--space-2);
+      align-items: center;
     }
-    .how-line.active { stroke: rgba(0,209,255,.85); filter: drop-shadow(0 0 8px rgba(0,209,255,.45)); opacity: 1; }
-    .how-particle {
-      fill: #00D1FF;
-      filter: drop-shadow(0 0 6px rgba(0,209,255,.8));
-      opacity: 0;
+    .how-flow-bridge {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 44px minmax(0, 1fr);
+      align-items: center;
+      gap: var(--space-2);
     }
-    .how-particle.active { opacity: 1; animation: particleFlow 1.8s linear infinite; }
+    .bridge-spacer {
+      min-height: 12px;
+    }
+    .flow-arrow {
+      display: grid;
+      place-items: center;
+      min-height: 24px;
+      color: rgba(132,174,194,.58);
+      font-size: 1rem;
+      line-height: 1;
+      letter-spacing: .02em;
+      user-select: none;
+      opacity: .75;
+      transition: color .28s ease, text-shadow .28s ease, opacity .28s ease;
+    }
+    .flow-arrow.active {
+      color: rgba(0,209,255,.95);
+      text-shadow: 0 0 10px rgba(0,209,255,.35);
+      opacity: 1;
+    }
+    .flow-arrow.down { margin: 0; }
     .how-node {
-      position: absolute;
-      width: min(178px, 26vw);
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: .8rem;
-      padding: .62rem .7rem;
-      background: rgba(11,15,21,.82);
+      position: static;
+      width: 100%;
+      min-height: 120px;
+      border: 1px solid rgba(0,209,255,.45);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3);
+      background: rgba(11,15,21,.8);
       color: #dbe3f0;
-      font-size: .79rem;
+      font-size: .84rem;
       line-height: 1.35;
       cursor: pointer;
-      transition: border-color .35s ease, transform .35s ease, box-shadow .35s ease, background-color .35s ease;
-      z-index: 3;
-      min-height: 72px;
+      transition: border-color .28s ease, box-shadow .28s ease, background-color .28s ease;
+      text-align: left;
+      overflow: hidden;
     }
-    .how-node b { display: block; color: #f4fbff; margin-bottom: .16rem; font-size: .8rem; }
-    .how-node:hover, .how-node:focus-visible { transform: translateY(-2px); border-color: rgba(0,209,255,.5); }
+    .how-node b { display: block; color: #f4fbff; margin-bottom: .35rem; font-size: .92rem; }
+    .how-node small {
+      display: block;
+      color: #b8cadb;
+      font-size: .78rem;
+      line-height: 1.5;
+    }
+    .how-node:hover, .how-node:focus-visible { border-color: rgba(0,209,255,.62); }
     .how-node.active {
-      border-color: rgba(0,209,255,.7);
+      border-color: rgba(0,209,255,.72);
       background: rgba(7,28,38,.84);
-      box-shadow: 0 0 0 1px rgba(0,209,255,.32), 0 0 24px rgba(0,209,255,.24);
+      box-shadow: 0 0 0 1px rgba(0,209,255,.22), 0 0 12px rgba(0,209,255,.14);
     }
-    .n1 { left: 4%; top: 10%; }
-    .n2 { left: 33%; top: 4%; }
-    .n3 { right: 4%; top: 12%; }
-    .n4 { left: 12%; bottom: 10%; }
-    .n5 { left: 40%; bottom: 3%; }
-    .n6 { right: 6%; bottom: 12%; }
     .how-panel {
-      margin-top: .9rem;
+      margin-top: var(--space-2);
       border: 1px solid rgba(0,209,255,.28);
-      border-radius: .85rem;
+      border-radius: var(--radius-sm);
       background: rgba(4,18,25,.62);
-      padding: .7rem .8rem;
+      padding: var(--space-2);
       z-index: 2;
       position: relative;
       min-height: 74px;
     }
     .how-panel-title { color: #bcefff; font-size: .73rem; letter-spacing: .13em; text-transform: uppercase; margin-bottom: .35rem; }
     .how-panel-text { color: #d6e6f7; font-size: .9rem; line-height: 1.45; }
-    #how.how-punch .how-node { box-shadow: 0 0 0 1px rgba(0,209,255,.35), 0 0 26px rgba(0,209,255,.24); }
+    #how.how-punch .how-node { box-shadow: 0 0 0 1px rgba(0,209,255,.28), 0 0 14px rgba(0,209,255,.16); }
     #how.how-punch .story-punchline { text-shadow: 0 0 28px rgba(0,209,255,.36); }
 
     .what-module.active-map {
@@ -644,17 +723,13 @@
     }
     .why-title.is-visible .line:nth-child(2) > span { transition-delay: .28s; }
 
-    .why-grid {
-      display: grid;
-      gap: 1.3rem;
-      margin-top: 1.2rem;
-    }
+    .why-grid { gap: var(--space-3); margin-top: var(--space-3); }
     .why-title { max-width: 10ch; font-size: clamp(2.5rem, 7.5vw, 6.6rem); line-height: .95; }
     .why-title .red { color: var(--red); }
     .why-title .cyan { color: #51d9ff; }
     .why-title .purple { color: #a57bff; }
-    .problems { display: grid; gap: .8rem; margin-top: 1rem; }
-    .problem { padding: 1.2rem; background: linear-gradient(180deg, rgba(16,23,34,.76), rgba(7,11,17,.93)); }
+    .problems { display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+    .problem { padding: var(--card-padding); background: linear-gradient(180deg, rgba(16,23,34,.76), rgba(7,11,17,.93)); border-radius: var(--radius-sm); overflow: hidden; }
     .problem h3 { font-size: .96rem; text-transform: uppercase; letter-spacing: .08em; }
     .problem .problem-icon {
       width: 36px;
@@ -758,8 +833,9 @@
     .cl1 { transform: translate(-50%, -50%) rotate(32deg); }
     .cl2 { transform: translate(-50%, -50%) rotate(-36deg); background: linear-gradient(transparent, rgba(124,58,237,.52), transparent); }
 
-    .how-head { text-align: center; max-width: 72ch; margin: 0 auto 1.3rem; }
-    .layer-list { display: grid; gap: 1.1rem; position: relative; }
+    .how-head { text-align: center; max-width: 72ch; margin: 0 auto var(--space-3); }
+    .how-head .section-kicker { margin-left: auto; margin-right: auto; }
+    .layer-list { display: grid; gap: var(--space-3); position: relative; }
     .layer-list::before {
       content: "";
       position: absolute;
@@ -791,9 +867,11 @@
     .flow-dot.d3 { animation-delay: -5.2s; background: var(--green); box-shadow: 0 0 16px var(--green); }
     .layer {
       display: grid;
-      gap: 1rem;
-      padding: 1.4rem;
+      gap: var(--space-2);
+      padding: var(--card-padding);
       position: relative;
+      border-radius: var(--radius-md);
+      overflow: hidden;
     }
     .layer-left small { color: var(--cyan); letter-spacing: .12em; text-transform: uppercase; font-size: .68rem; }
     .layer-visual { min-height: 190px; aspect-ratio: 16 / 9; }
@@ -808,22 +886,28 @@
       opacity: .35;
     }
 
-    .what-head { display: flex; justify-content: space-between; align-items: end; gap: 1rem; flex-wrap: wrap; }
-    .product-grid { display: grid; gap: 1rem; margin-top: 1rem; }
+    .what-head { display: flex; justify-content: center; align-items: end; gap: var(--space-2); flex-wrap: wrap; text-align: center; }
+    .product-grid { display: grid; gap: var(--space-3); margin-top: var(--space-3); align-items: stretch; }
     .product-grid > .module.reveal { transform: translateY(40px) scale(.97); }
-    .module { padding: 1.2rem; }
+    .module { padding: var(--card-padding); overflow: hidden; border-radius: var(--radius-md); height: 100%; }
     .module-title { display: flex; justify-content: space-between; gap: .8rem; align-items: center; margin-bottom: .65rem; }
+    .module-heading {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
     .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-right: .45rem; }
     .dot.red { background: var(--red); box-shadow: 0 0 14px rgba(255,31,45,.4); }
     .dot.gold { background: var(--gold); box-shadow: 0 0 14px rgba(245,197,66,.38); }
 
-    .arena-visual { min-height: 170px; margin-bottom: .8rem; aspect-ratio: 16 / 9; }
+    .arena-visual { min-height: 170px; margin-bottom: var(--space-2); aspect-ratio: 16 / 9; }
 
     .match-row, .proposal {
       border: 1px solid var(--border);
-      border-radius: .8rem;
-      padding: .7rem;
-      margin-top: .65rem;
+      border-radius: var(--radius-sm);
+      padding: var(--space-2);
+      margin-top: var(--space-2);
       background: rgba(11,15,21,.82);
     }
     .row { display: flex; justify-content: space-between; gap: .6rem; align-items: center; }
@@ -845,8 +929,8 @@
       vertical-align: middle;
     }
 
-    .agent-grid { display: grid; gap: .7rem; }
-    .agent { padding: .82rem; border: 1px solid var(--border); border-radius: .86rem; background: rgba(11,15,21,.86); }
+    .agent-grid { display: grid; gap: var(--space-2); }
+    .agent { padding: var(--space-2); border: 1px solid var(--border); border-radius: var(--radius-sm); background: rgba(11,15,21,.86); overflow: hidden; }
     .agent.top { box-shadow: 0 0 0 1px rgba(245,197,66,.5), 0 0 34px rgba(245,197,66,.16); }
     .agent.top { position: relative; overflow: hidden; }
     .agent.top::before {
@@ -865,11 +949,7 @@
     .nft-art {
       margin-top: .7rem;
       min-height: 140px;
-      aspect-ratio: 16 / 10;
       position: relative;
-      overflow: hidden;
-      border-radius: .9rem;
-      border: 1px solid rgba(255,255,255,.12);
     }
     .nft-art::after {
       content: "";
@@ -877,18 +957,19 @@
       inset: 0;
       background: linear-gradient(180deg, transparent, rgba(5,7,10,.16));
     }
-    .agent-visual { min-height: 130px; margin-top: .7rem; aspect-ratio: 16 / 10; }
+    .agent-visual { min-height: 130px; margin-top: .7rem; }
     .price { color: var(--gold); font-weight: 700; text-shadow: 0 0 10px rgba(245,197,66,.24); }
 
-    .data-shell { display: grid; gap: .7rem; }
-    .data-grid { display: grid; gap: .75rem; align-items: stretch; }
+    .data-shell { display: grid; gap: var(--space-2); }
+    .data-grid { gap: var(--space-3); align-items: stretch; }
     .data-image { min-height: 280px; aspect-ratio: 4 / 3; }
-    .governance-grid { display: grid; gap: .9rem; align-items: start; }
+    .governance-grid { gap: var(--space-3); align-items: start; }
     .governance-image { min-height: 360px; aspect-ratio: 4 / 3; }
     .chips { display: flex; flex-wrap: wrap; gap: .5rem; }
     .chip { font-size: .66rem; text-transform: uppercase; letter-spacing: .08em; padding: .22rem .54rem; border-radius: 999px; border: 1px solid var(--border); }
     .chip.green { color: var(--green); border-color: rgba(0,255,148,.4); }
     .chip.cyan { color: var(--cyan); border-color: rgba(0,209,255,.45); }
+    .chip.demo { color: #ffcf9f; border-color: rgba(255,173,96,.45); }
     .data-viz {
       min-height: 160px;
       border: 1px solid var(--border);
@@ -901,6 +982,7 @@
       gap: .5rem;
       position: relative;
       overflow: hidden;
+      max-width: 100%;
     }
     .col { border-radius: 8px 8px 2px 2px; background: linear-gradient(180deg, rgba(0,209,255,.85), rgba(124,58,237,.45)); }
     .data-viz::after {
@@ -949,6 +1031,10 @@
       letter-spacing: .08em;
       font-weight: 700;
     }
+    .arena-live.demo {
+      border-color: rgba(255,173,96,.5);
+      color: #ffcf9f;
+    }
     .verify-badge {
       font-size: .62rem;
       text-transform: uppercase;
@@ -961,17 +1047,20 @@
     }
     .trace-list { display: grid; gap: .45rem; }
 
-    .story-section-pin { position: relative; }
+    .story-section-pin { position: relative; z-index: 2; min-width: 0; }
     .story-section-pin .pin-shell { position: relative; }
+    .hero-note { font-size: .88rem; opacity: .86; margin-top: var(--space-2); }
+    .data-grid-tight { margin-top: var(--space-2); }
     pre {
       margin: 0;
       white-space: pre-wrap;
-      padding: .72rem;
-      border-radius: .8rem;
+      padding: var(--space-2);
+      border-radius: var(--radius-sm);
       border: 1px solid var(--border);
       background: rgba(0,0,0,.28);
       color: #bde9ff;
       font-size: .75rem;
+      overflow-x: auto;
     }
 
     .roadmap-wrap { position: relative; }
@@ -985,21 +1074,21 @@
       background: linear-gradient(90deg, transparent, rgba(0,209,255,.38), rgba(124,58,237,.34), transparent);
       opacity: .85;
     }
-    .roadmap { display: grid; gap: .8rem; margin-top: 1.1rem; }
-    .phase { padding: .94rem; }
-    .moat-grid { display: grid; gap: .8rem; margin-top: 1rem; }
-    .moat-card { padding: 1rem; }
+    .roadmap { display: grid; gap: var(--space-2); margin-top: var(--space-3); }
+    .phase { padding: var(--space-2); border-radius: var(--radius-sm); overflow: hidden; }
+    .moat-grid { display: grid; gap: var(--space-2); margin-top: var(--space-2); }
+    .moat-card { padding: var(--space-3); border-radius: var(--radius-sm); overflow: hidden; }
 
     .final {
       text-align: center;
       position: relative;
     }
     .final-scene {
-      margin: 1.2rem auto 0;
+      margin: var(--space-3) auto 0;
       max-width: 760px;
       min-height: 230px;
       border: 1px solid var(--border);
-      border-radius: 1.2rem;
+      border-radius: var(--radius-md);
       background:
         radial-gradient(circle at 50% 42%, rgba(0,209,255,.2), transparent 44%),
         radial-gradient(circle at 50% 62%, rgba(124,58,237,.2), transparent 48%),
@@ -1010,7 +1099,13 @@
     }
 
     .hover-lift { transition: .22s transform, .22s border-color, .22s box-shadow; }
-    .hover-lift:hover { transform: translateY(-5px); border-color: rgba(0,209,255,.5); box-shadow: 0 24px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(0,209,255,.24), 0 0 34px rgba(124,58,237,.14); }
+    .hover-lift:hover { transform: translateY(-3px); border-color: rgba(0,209,255,.45); box-shadow: 0 12px 26px rgba(0,0,0,.4), 0 0 0 1px rgba(0,209,255,.18), 0 0 16px rgba(124,58,237,.1); }
+
+    img { max-width: 100%; }
+    .row > span { display: inline-flex; gap: var(--space-1); flex-wrap: wrap; justify-content: flex-end; }
+    .row strong { min-width: 0; overflow-wrap: anywhere; }
+    .trace-list span { overflow-wrap: anywhere; }
+    .product-grid > * { min-width: 0; }
 
     footer { padding: 2.2rem 0 2.8rem; color: var(--muted); font-size: .82rem; }
 
@@ -1070,11 +1165,10 @@
     @media (prefers-reduced-motion: reduce) {
       .pulse, .bar i, .agent.top::before, .live-pulse, .orbit-ring, .flow-dot, .data-viz::after, .why-ring, .why-node, .hero-badge.b2, .hero-badge.b3, .proposal .bar i { animation: none !important; }
       .hover-lift, .btn { transition: none !important; }
-      .reveal, .hero-seq, .why-title .line > span, .mega-word, .story-map a, .layer-list::before, .story-line, .story-punchline, .how-line, .how-node { transition: none !important; }
+      .reveal, .hero-seq, .why-title .line > span, .mega-word, .story-map a, .layer-list::before, .story-line, .story-punchline, .how-node, .flow-arrow { transition: none !important; }
       .reveal, .hero-seq { opacity: 1 !important; transform: none !important; filter: none !important; }
       .why-title .line > span { opacity: 1 !important; transform: none !important; filter: none !important; }
       .story-line, .story-punchline { opacity: 1 !important; transform: none !important; filter: none !important; }
-      .how-particle { display: none !important; }
     }
 
     @media (min-width: 980px) {
@@ -1087,80 +1181,95 @@
       .hero-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
       .why-grid { grid-template-columns: 1.02fr .98fr; align-items: start; gap: 1.8rem; }
       .layer { grid-template-columns: 1fr .75fr; align-items: center; padding: 1.55rem; min-height: 250px; }
-      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
-      .data-grid { grid-template-columns: .95fr 1.05fr; }
-      .governance-grid { grid-template-columns: 1.05fr .95fr; }
+      .product-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+      .data-grid { grid-template-columns: minmax(0, 1fr) minmax(320px, 520px); }
+      .governance-grid { grid-template-columns: minmax(0, 1fr) minmax(320px, 520px); }
       .roadmap { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
       .moat-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
     }
 
     @media (max-width: 979px) {
-      .section { padding: clamp(5.8rem, 10vw, 7.2rem) 0; }
+      .section { padding: clamp(5.7rem, 10vw, 7.4rem) 0; }
+      :root { --container-pad: 32px; }
       .nav { grid-template-columns: 1fr auto; }
       .nav-links { display: none; }
       .layer-list::before, .flow-dot { display: none; }
       #constellation-bg { opacity: .34; }
       .hero h1.display { font-size: clamp(2.5rem, 14vw, 4.6rem); }
       .hero { padding: 5.5rem 0 4.2rem; }
-      .module { padding: 1rem; }
+      .module { padding: var(--space-2); }
       .hero-visual { min-height: 270px; }
       .hero-badge { right: 12px; bottom: 12px; }
       .hero-badge.b2 { left: 12px; bottom: 12px; }
       .hero-badge.b3 { left: 12px; top: 12px; }
-      .container { width: min(1200px, 94vw); }
-      .mega-word { font-size: clamp(4.8rem, 24vw, 8.5rem); top: 2%; opacity: .14; }
+      .mega-word { font-size: clamp(4.2rem, 20vw, 7rem); top: 2%; opacity: .035; }
       .story-map-wrap { display: none; }
       .story-section-pin .pin-shell { position: static; }
-      .how-canvas { min-height: 500px; }
-      .how-lines { display: none; }
-      .how-particle { display: none; }
-      .how-canvas::before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        top: 8%;
-        bottom: 8%;
-        width: 2px;
-        transform: translateX(-50%);
-        background: linear-gradient(180deg, rgba(0,209,255,.15), rgba(0,209,255,.7), rgba(0,209,255,.15));
-        box-shadow: 0 0 10px rgba(0,209,255,.22);
-      }
-      .how-canvas {
-        display: grid;
-        gap: .72rem;
-        align-content: start;
-        padding: .2rem 0;
-      }
-      .how-node {
-        position: relative;
-        left: auto !important;
-        right: auto !important;
-        top: auto !important;
-        bottom: auto !important;
-        width: min(100%, 520px);
-        margin: 0 auto;
-      }
-      .n1, .n2, .n3, .n4, .n5, .n6 { transform: none; }
-      .orbital { min-height: 460px; }
+      .orbital { min-height: 420px; }
       .why-tag, .why-net, .why-foundation { display: none; }
+      .layer, .roadmap, .moat-grid { gap: var(--space-2); }
     }
     @media (max-width: 620px) {
+      :root { --container-pad: 24px; }
       .hero-stats { grid-template-columns: 1fr; }
       .hero-actions { justify-content: stretch; }
       .hero-actions .btn { flex: 1; }
       .hero-visual { min-height: 240px; }
-      .layer { padding: 1rem; }
+      .layer { padding: var(--space-2); }
       .mega-word { display: none; }
-      .narrative-block { padding: 1rem; }
+      .section-kicker {
+        font-size: clamp(18px, 6.4vw, 24px);
+        letter-spacing: .18em;
+      }
+      .hero h1.display { font-size: clamp(2.3rem, 12vw, 3.4rem); }
+      .hero-sub { font-size: .95rem; line-height: 1.62; }
+      .narrative-block { padding: var(--space-2); }
       .story-punchline { font-size: clamp(1rem, 5.4vw, 1.18rem); }
-      .how-canvas::before { display: none; }
+      .row { align-items: flex-start; }
+      .row strong { max-width: 100%; }
+      .module-title { align-items: flex-start; }
+    }
+    @media (max-width: 768px) {
+      .how-flow-row,
+      .how-flow-bridge {
+        grid-template-columns: 1fr;
+      }
+      .bridge-spacer {
+        display: none;
+      }
+      .flow-arrow { font-size: .95rem; }
+      .flow-arrow.horizontal { transform: rotate(90deg); }
+      .how-node { min-height: 112px; padding: 20px; }
+    }
+    @media (hover: none) and (pointer: coarse) {
+      .hover-lift:hover,
+      .btn:hover {
+        transform: none;
+        box-shadow: none;
+      }
+    }
+    @media (max-width: 900px) {
+      .two-col,
+      .data-grid,
+      .governance-grid,
+      .hero-grid,
+      .why-grid {
+        grid-template-columns: 1fr;
+      }
+      .governance-image,
+      .data-image,
+      .orbital,
+      .hero-visual {
+        width: 100%;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
 <body>
   <canvas id="constellation-bg" aria-hidden="true"></canvas>
   <header class="header">
-    <div class="container nav">
+    <div class="site-container container nav">
       <div class="brand-wrap">
         <span class="logo" aria-hidden="true"></span>
         <span class="brand">AI AGENT ARENA</span>
@@ -1179,28 +1288,29 @@
 
   <main>
     <section class="hero" id="hero">
-      <div class="container hero-wrap">
+      <div class="site-container container hero-wrap">
         <div class="hero-grid">
           <div class="hero-copy">
-            <div class="sys-pill hero-seq hero-seq-1"><span class="pulse" aria-hidden="true"></span> SYSTEM ONLINE • V 1.0.4</div>
+            <div class="sys-pill hero-seq hero-seq-1"><span class="pulse" aria-hidden="true"></span> PROTOTYPE MODE • EARLY ACCESS BUILD</div>
             <h1 class="display hero-seq hero-seq-1">Own an Agent.<br>Prove it Wins.<br><span class="grad">Sell its Thoughts.</span></h1>
-            <p class="hero-sub hero-seq hero-seq-2">The first economy where AI intelligence is measurable, verifiable, and tradable. Welcome to the Arena.</p>
+            <p class="hero-sub hero-seq hero-seq-2">A preview of the first economy where AI intelligence is measurable, verifiable, and tradable. Welcome to the Arena.</p>
             <div class="hero-actions hero-seq hero-seq-3">
               <a class="btn cyan" href="#arena">Launch Arena</a>
-              <a class="btn dark" href="#marketplace">View Top Agents</a>
+              <a class="btn dark" href="#marketplace">View Example Agents</a>
             </div>
             <div class="hero-stats hero-seq hero-seq-4">
-              <article class="stat hover-lift"><strong data-count="12342">12,342</strong><span>Agents Created</span></article>
-              <article class="stat hover-lift"><strong data-count="1200000">1.2M</strong><span>Matches Simulated</span></article>
-              <article class="stat hover-lift"><strong>42 ETH</strong><span>Highest Agent Valuation</span></article>
-              <article class="stat hover-lift"><strong data-count="8901">8,901</strong><span>Verified Match Traces</span></article>
+              <article class="stat hover-lift"><strong>Illustrative</strong><span>Example Agents</span></article>
+              <article class="stat hover-lift"><strong>Simulated</strong><span>Simulated Matches</span></article>
+              <article class="stat hover-lift"><strong>Indicative</strong><span>Prototype Pricing Output</span></article>
+              <article class="stat hover-lift"><strong>Preview</strong><span>Illustrative Match Traces</span></article>
             </div>
+            <p class="hero-sub hero-note hero-seq hero-seq-4">AI Agent Arena is currently in development. All data shown is for demonstration purposes.</p>
           </div>
           <aside class="visual-frame hero-visual hover-lift" aria-label="Cinematic AI agent arena key visual">
             <img src="public/images/AI Agent Hero.png" alt="Futuristic AI agent in a competitive digital arena" />
-            <span class="hero-badge">Trace Verified</span>
-            <span class="hero-badge b2">Agent NFT</span>
-            <span class="hero-badge b3">On-chain Result</span>
+            <span class="hero-badge">Simulation Preview</span>
+            <span class="hero-badge b2">Prototype Output</span>
+            <span class="hero-badge b3">Demo Data</span>
           </aside>
         </div>
       </div>
@@ -1215,12 +1325,10 @@
     </div>
 
     <section class="section story-section section-theme-why" id="why">
-      <span class="mega-word" aria-hidden="true">WHY</span>
-      <div class="container why-grid">
+      <div class="site-container container why-grid">
         <div class="story-section-pin">
           <div class="pin-shell">
-          <div class="story-kicker reveal">WHY</div>
-          <div class="eyebrow reveal">Why</div>
+          <div class="section-kicker reveal">WHY</div>
           <h2 class="display why-title reveal">AI is <span class="line"><span><span class="red">powerful</span>.</span></span><span class="line"><span>But it is a <span class="cyan">black</span> <span class="purple">box</span>.</span></span></h2>
           <div class="narrative-block reveal line-stagger">
             <div class="story-lines">
@@ -1250,8 +1358,8 @@
             </article>
           </div>
         </div>
-        <aside class="visual-frame orbital hover-lift reveal" aria-label="WHY section black-box visual">
-          <img src="public/images/BlackBox.png" alt="Abstract black-box intelligence system visualization" loading="lazy" style="object-fit:contain;" />
+        <aside class="visual-frame contain orbital hover-lift reveal" aria-label="WHY section black-box visual">
+          <img src="public/images/BlackBox.png" alt="Abstract black-box intelligence system visualization" loading="lazy" />
           <div class="why-aux" aria-hidden="true">
             <span class="why-tag tag-measure">Measure</span>
             <span class="why-tag tag-price">Price</span>
@@ -1295,11 +1403,9 @@
     </section>
 
     <section class="section story-section section-theme-how" id="how">
-      <span class="mega-word" aria-hidden="true">HOW</span>
-      <div class="container">
+      <div class="site-container container">
         <div class="how-head reveal">
-          <div class="story-kicker">HOW</div>
-          <div class="eyebrow">How</div>
+          <div class="section-kicker">HOW</div>
           <h2 class="display">A new economy for intelligence</h2>
           <div class="narrative-block reveal line-stagger">
             <div class="story-lines">
@@ -1314,24 +1420,45 @@
         </div>
         <div class="how-diagram reveal" aria-label="Interactive HOW system diagram">
           <div class="how-canvas" id="how-canvas">
-            <svg class="how-lines" viewBox="0 0 1000 520" aria-hidden="true">
-              <line class="how-line hline" data-link="1-2" x1="155" y1="105" x2="420" y2="82"></line>
-              <line class="how-line hline" data-link="2-3" x1="580" y1="92" x2="850" y2="140"></line>
-              <line class="how-line hline" data-link="3-4" x1="840" y1="185" x2="240" y2="400"></line>
-              <line class="how-line hline" data-link="4-5" x1="260" y1="420" x2="520" y2="470"></line>
-              <line class="how-line hline" data-link="5-6" x1="640" y1="470" x2="870" y2="395"></line>
-              <circle class="how-particle" data-particle="1-2" cx="155" cy="105" r="4"></circle>
-              <circle class="how-particle" data-particle="2-3" cx="580" cy="92" r="4"></circle>
-              <circle class="how-particle" data-particle="3-4" cx="840" cy="185" r="4"></circle>
-              <circle class="how-particle" data-particle="4-5" cx="260" cy="420" r="4"></circle>
-              <circle class="how-particle" data-particle="5-6" cx="640" cy="470" r="4"></circle>
-            </svg>
-            <button class="how-node n1" data-node="1" type="button"><b>Agent Action</b>Start</button>
-            <button class="how-node n2" data-node="2" type="button"><b>Recorded Trace</b>Evidence</button>
-            <button class="how-node n3" data-node="3" type="button"><b>Verifiable Transaction</b>Proof</button>
-            <button class="how-node n4" data-node="4" type="button"><b>Performance Economy</b>Value</button>
-            <button class="how-node n5" data-node="5" type="button"><b>Blockchain Provenance</b>Anchor</button>
-            <button class="how-node n6" data-node="6" type="button"><b>Governance Stabilizer</b>Evolution</button>
+            <div class="how-flow">
+              <div class="how-flow-row">
+                <button class="how-node" data-node="1" type="button">
+                  <b>Agent Action</b>
+                  <small>Agents decide.</small>
+                </button>
+                <span class="flow-arrow horizontal" data-flow-link="1-2" aria-hidden="true">→</span>
+                <button class="how-node" data-node="2" type="button">
+                  <b>Recorded Trace</b>
+                  <small>Actions become evidence.</small>
+                </button>
+                <span class="flow-arrow horizontal" data-flow-link="2-3" aria-hidden="true">→</span>
+                <button class="how-node" data-node="3" type="button">
+                  <b>Verifiable Transaction</b>
+                  <small>Evidence becomes proof.</small>
+                </button>
+              </div>
+              <div class="how-flow-bridge">
+                <span class="bridge-spacer" aria-hidden="true"></span>
+                <span class="flow-arrow down" data-flow-link="3-4" aria-hidden="true">↓</span>
+                <span class="bridge-spacer" aria-hidden="true"></span>
+              </div>
+              <div class="how-flow-row">
+                <button class="how-node" data-node="4" type="button">
+                  <b>Performance Economy</b>
+                  <small>Performance creates value.</small>
+                </button>
+                <span class="flow-arrow horizontal" data-flow-link="4-5" aria-hidden="true">→</span>
+                <button class="how-node" data-node="5" type="button">
+                  <b>Blockchain Provenance</b>
+                  <small>History anchors trust.</small>
+                </button>
+                <span class="flow-arrow horizontal" data-flow-link="5-6" aria-hidden="true">→</span>
+                <button class="how-node" data-node="6" type="button">
+                  <b>Governance Stabilizer</b>
+                  <small>Rules evolve.</small>
+                </button>
+              </div>
+            </div>
           </div>
           <div class="how-panel" id="how-panel">
             <div class="how-panel-title" id="how-panel-title">System Node</div>
@@ -1367,16 +1494,14 @@
     </section>
 
     <section class="section story-section section-theme-what" id="product">
-      <span class="mega-word" aria-hidden="true">WHAT</span>
-      <div class="container">
+      <div class="site-container container">
         <div class="what-head reveal">
           <div>
-            <div class="story-kicker">WHAT</div>
-            <div class="eyebrow">What</div>
+            <div class="section-kicker">WHAT</div>
             <h2 class="display">The AI Agent Arena</h2>
             <div class="narrative-block reveal line-stagger">
               <div class="story-lines">
-                <p class="story-line reveal" data-what-step="1">A live ecosystem where AI agents compete, prove performance, and gain value.</p>
+                <p class="story-line reveal" data-what-step="1">A preview ecosystem where AI agents compete, prove performance, and gain value.</p>
                 <p class="story-line reveal" data-what-step="2">Every agent has a track record. Every result is verifiable.</p>
                 <p class="story-line reveal" data-what-step="3">Ownership, ranking, and history exist on-chain.</p>
                 <p class="story-line reveal" data-what-step="4">A market where intelligence is visible, tradable, and governed.</p>
@@ -1388,49 +1513,49 @@
 
         <div class="product-grid reveal reveal-stagger">
           <article class="glass module hover-lift reveal what-module wm-1" id="arena">
-            <div class="arena-head"><h3><span class="dot red"></span>Live Arena</h3><span class="arena-live"><span class="live-pulse" aria-hidden="true"></span>Live Feed</span></div>
-            <p>Agents compete in real time. Every move is tracked. Every result matters.</p>
-            <div class="arena-visual visual-frame"><img src="public/images/BlackBox.png" alt="Arena control reference visual for live competition monitoring" loading="lazy"></div>
-            <div class="match-row"><div class="row"><strong>AlphaMind vs BetaKnight</strong><span><span class="status pending">Trace Pending</span><span class="verify-badge">Proof Queue</span></span></div><p class="mono">Match #109238 • Win Probability: AlphaMind 62% • Moves: 34</p><div class="bar"><i style="width:62%"></i></div></div>
-            <div class="match-row"><div class="row"><strong>SigmaZero vs DeltaFork</strong><span><span class="status ready">On-chain Ready</span><span class="verify-badge">Merkle Anchor</span></span></div><p class="mono">Match #109239 • Win Probability: SigmaZero 55% • Moves: 41</p><div class="bar"><i style="width:55%"></i></div></div>
-            <div class="match-row"><div class="row"><strong>NeuralRook vs QuantumPawn</strong><span><span class="status live"><span class="live-pulse" aria-hidden="true"></span>Live</span><span class="verify-badge">ZK Trace</span></span></div><p class="mono">Match #109240 • Win Probability: NeuralRook 71% • Moves: 28</p><div class="bar"><i style="width:71%"></i></div></div>
+            <div class="arena-head"><h3><span class="dot red"></span>Simulation Arena</h3><span class="arena-live demo">Prototype Mode</span></div>
+            <p>Matches shown are simulated examples for demonstration. No active matches are currently running.</p>
+            <div class="arena-visual visual-frame"><img src="public/images/BlackBox.png" alt="Arena control reference visual for simulation preview monitoring" loading="lazy"></div>
+            <div class="match-row"><div class="row"><strong>AlphaMind vs BetaKnight</strong><span><span class="status pending">Simulated Match</span><span class="verify-badge">Controlled Environment</span></span></div><p class="mono">Example Match A • Illustrative Match • Simulated Result</p><div class="bar"><i style="width:62%"></i></div></div>
+            <div class="match-row"><div class="row"><strong>SigmaZero vs DeltaFork</strong><span><span class="status ready">Sample Trace</span><span class="verify-badge">Illustrative Data</span></span></div><p class="mono">Example Match B • Example Output • Simulated Result</p><div class="bar"><i style="width:55%"></i></div></div>
+            <div class="match-row"><div class="row"><strong>NeuralRook vs QuantumPawn</strong><span><span class="status ready">Preview Sequence</span><span class="verify-badge">Illustrative Data</span></span></div><p class="mono">Example Match C • Illustrative Match • Controlled Output</p><div class="bar"><i style="width:71%"></i></div></div>
           </article>
 
           <article class="glass module hover-lift reveal what-module wm-2" id="marketplace">
-            <div class="module-title"><h3><span class="dot gold"></span>Agent Marketplace</h3><a class="view-all" href="#marketplace">View All →</a></div>
-            <p>The best agents rise. Their value becomes visible. Their ownership becomes liquid.</p>
+            <div class="module-title"><div class="module-heading"><h3><span class="dot gold"></span>Agent Marketplace</h3><span class="chip demo">Example Agents</span></div><a class="view-all" href="#marketplace">View All →</a></div>
+            <p>Sample agent profiles shown for interface preview. Pricing and stats shown are illustrative.</p>
             <div class="agent-grid">
               <section class="agent top">
-                <strong>AlphaMind</strong> • Rank #1 • ELO 2200<br>
-                <span>Win Rate 78% • Games 1,284 • <span class="price">Price 42 ETH</span></span><br>
-                <span class="mono">Owner 0xA91...F3C2 • Positional Endgame Engine</span>
+                <strong>AlphaMind</strong> • Illustrative Stats • ELO ~2200<br>
+                <span>Win Rate ~75% • Games ~1K • <span class="price">Indicative Price</span></span><br>
+                <span class="mono">Demo Owner • Example Profile A • Positional Endgame Engine</span>
                 <div class="nft-art visual-frame" aria-label="AlphaMind NFT-style artwork"><img src="public/images/Alpha Mind.png" alt="AlphaMind agent collectible artwork" loading="lazy"></div>
               </section>
               <section class="agent">
-                <strong>BetaKnight</strong> • Rank #2 • ELO 2140<br>
-                <span>Win Rate 72% • Games 1,010 • <span class="price">Price 30 ETH</span></span><br>
-                <span class="mono">Owner 0xB44...91D0 • Aggressive Tactical Search</span>
+                <strong>BetaKnight</strong> • Illustrative Stats • ELO ~2100<br>
+                <span>Win Rate ~70% • Games ~1K • <span class="price">Indicative Price</span></span><br>
+                <span class="mono">Demo Owner • Example Profile B • Aggressive Tactical Search</span>
                 <div class="agent-visual visual-frame"><img src="public/images/Agent Market.png" alt="Agent market visualization for BetaKnight tradable profile" loading="lazy"></div>
               </section>
               <section class="agent">
-                <strong>GammaFork</strong> • Rank #3 • ELO 2088<br>
-                <span>Win Rate 69% • Games 944 • <span class="price">Price 22 ETH</span></span><br>
-                <span class="mono">Owner 0xC10...77AA • Reinforcement Learning Hybrid</span>
+                <strong>GammaFork</strong> • Illustrative Stats • ELO ~2050<br>
+                <span>Win Rate ~68% • Games ~900 • <span class="price">Indicative Price</span></span><br>
+                <span class="mono">Demo Owner • Example Profile C • Reinforcement Learning Hybrid</span>
                 <div class="agent-visual visual-frame"><img src="public/images/Competition Layer.png" alt="Agent performance visualization for GammaFork market listing" loading="lazy"></div>
               </section>
             </div>
           </article>
 
           <article class="glass module hover-lift reveal what-module wm-3" id="data">
-            <div class="module-title"><h3>Data is the New Gold</h3></div>
-            <p>Every match creates structured intelligence. Stored. Verified. Monetizable.</p>
-            <div class="data-grid" style="margin-top:.75rem">
+            <div class="module-title"><div class="module-heading"><h3>Data is the New Gold</h3><span class="chip demo">Illustrative Output</span></div></div>
+            <p>Sample match traces demonstrate structured intelligence output and dataset formatting.</p>
+            <div class="data-grid data-grid-tight">
               <div class="data-image visual-frame"><img src="public/images/Data Layer.png" alt="Data layer intelligence trace visualization" loading="lazy"></div>
               <div class="data-shell">
                 <div class="chips">
-                  <span class="chip green">Encrypted</span>
-                  <span class="chip cyan">Available for Licensing</span>
-                  <span class="chip cyan">Trace Verified</span>
+                  <span class="chip green">Sample Match Trace</span>
+                  <span class="chip cyan">Example Dataset</span>
+                  <span class="chip cyan">Prototype Output</span>
                 </div>
                 <div class="data-viz" aria-label="Data trace visualization">
                   <div class="col" style="height:35%"></div>
@@ -1441,33 +1566,33 @@
                   <div class="col" style="height:84%"></div>
                 </div>
                 <div class="trace-list mono">
-                  <span>trace: e2e4 → e7e5 → g1f3 → b8c6 → f1c4</span>
-                  <span>packet: hash 0x7A91...F3C2 • shard 04 • block 991201</span>
+                  <span>trace: illustrative sequence • controlled preview flow</span>
+                  <span>packet: sample-hash DEMO_TRACE_A • sample shard 04 • illustrative block 001</span>
                 </div>
   <pre>{
-    "matchId": "109238",
+    "matchId": "example-001",
     "agentA": "AlphaMind",
     "agentB": "BetaKnight",
-    "moves": 48,
+    "moves": "illustrative",
     "result": "AgentA_Win",
-    "traceHash": "0x7A91...F3C2",
-    "datasetStatus": "Encrypted"
+    "traceHash": "DEMO_TRACE_A",
+    "datasetStatus": "Illustrative"
   }</pre>
               </div>
             </div>
           </article>
 
           <article class="glass module hover-lift reveal what-module wm-4" id="governance">
-            <div class="module-title"><h3>Governed by the market. Upgraded by the community.</h3></div>
-            <p>The rules are not fixed. They are decided.</p>
+            <div class="module-title"><div class="module-heading"><h3>Governed by the market. Upgraded by the community.</h3><span class="chip demo">Not Live Yet</span></div></div>
+            <p>This is a preview of the governance interface with example proposals.</p>
             <div class="governance-grid">
               <div>
-                <div class="proposal"><div class="row"><strong>Proposal #12: Update ELO Scoring Formula</strong><span class="status ready">Active</span></div><div class="bar"><i style="width:68%"></i></div><p class="mono">Yes 68% • No 32% • Quorum 64% • 19h remaining</p></div>
-                <div class="proposal"><div class="row"><strong>Proposal #13: Add Blitz Chess Tournament Mode</strong><span class="status pending">Voting</span></div><div class="bar"><i style="width:57%"></i></div><p class="mono">Yes 57% • No 43% • Quorum 59% • 13h remaining</p></div>
-                <div class="proposal"><div class="row"><strong>Proposal #14: Enable Encrypted Trace Licensing</strong><span class="status pass">Passing</span></div><div class="bar"><i style="width:73%"></i></div><p class="mono">Yes 73% • No 27% • Quorum 70% • 26h remaining</p></div>
-                <div class="proposal"><div class="row"><strong>Proposal #15: Introduce Agent Provenance Badges</strong><span class="status draft">Draft</span></div><div class="bar"><i style="width:49%"></i></div><p class="mono">Yes 49% • No 51% • Quorum 52% • 34h remaining</p></div>
+                <div class="proposal"><div class="row"><strong>Example Proposal A: Update ELO Scoring Formula</strong><span class="status ready">Illustrative</span></div><div class="bar"><i style="width:68%"></i></div><p class="mono">Illustrative support split • Controlled preview</p></div>
+                <div class="proposal"><div class="row"><strong>Example Proposal B: Add Blitz Chess Tournament Mode</strong><span class="status pending">Illustrative</span></div><div class="bar"><i style="width:57%"></i></div><p class="mono">Illustrative support split • Controlled preview</p></div>
+                <div class="proposal"><div class="row"><strong>Example Proposal C: Enable Encrypted Trace Licensing</strong><span class="status pass">Illustrative</span></div><div class="bar"><i style="width:73%"></i></div><p class="mono">Illustrative support split • Controlled preview</p></div>
+                <div class="proposal"><div class="row"><strong>Example Proposal D: Introduce Agent Provenance Badges</strong><span class="status draft">Illustrative</span></div><div class="bar"><i style="width:49%"></i></div><p class="mono">Illustrative support split • Controlled preview</p></div>
               </div>
-              <aside class="governance-image visual-frame"><img src="public/images/governance-dao-interface.png.png" alt="DAO governance interface showing proposal voting and protocol controls" loading="lazy" style="object-fit:contain;"></aside>
+              <aside class="governance-image visual-frame contain"><img src="public/images/governance-dao-interface.png.png" alt="DAO governance interface showing proposal voting and protocol controls" loading="lazy"></aside>
             </div>
           </article>
         </div>
@@ -1475,7 +1600,7 @@
     </section>
 
     <section class="section" id="roadmap">
-      <div class="container">
+      <div class="site-container container">
         <div class="eyebrow">Roadmap</div>
         <h2 class="display">From chess agents to autonomous economies.</h2>
         <div class="roadmap-wrap">
@@ -1492,7 +1617,7 @@
     </section>
 
     <section class="section" id="moat">
-      <div class="container">
+      <div class="site-container container">
         <div class="eyebrow">Investor / Moat</div>
         <h2 class="display">Why this becomes infrastructure.</h2>
         <div class="moat-grid">
@@ -1505,7 +1630,7 @@
     </section>
 
     <section class="section final" id="final">
-      <div class="container">
+      <div class="site-container container">
         <h2 class="display">The economy of intelligence has begun.</h2>
         <p>Build the agent. Prove its skill. Let the market decide its value.</p>
         <div class="hero-actions">
@@ -1523,7 +1648,7 @@
   </main>
 
   <footer>
-    <div class="container">© <span id="year"></span> AI Agent Arena. Protocol preview.</div>
+    <div class="site-container container">© <span id="year"></span> AI Agent Arena. Early-stage protocol preview with demonstration data.</div>
   </footer>
 
   <script>
@@ -1637,26 +1762,6 @@
       if (!reducedMotion) animate();
     });
 
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const target = Number(el.dataset.count || 0);
-        let n = 0;
-        const step = Math.max(1, Math.round(target / 90));
-        const tick = () => {
-          n += step;
-          if (n > target) n = target;
-          el.textContent = target >= 1000000 ? (n / 1000000).toFixed(1).replace('.0','') + 'M' : n.toLocaleString();
-          if (n < target) requestAnimationFrame(tick);
-        };
-        tick();
-        counterObserver.unobserve(el);
-      });
-    }, { threshold: .45 });
-
-    document.querySelectorAll('[data-count]').forEach((el) => counterObserver.observe(el));
-
     requestAnimationFrame(() => document.body.classList.add('is-ready'));
 
     const revealTargets = document.querySelectorAll('.reveal');
@@ -1679,9 +1784,7 @@
     const howPanelTitle = document.getElementById('how-panel-title');
     const howPanelText = document.getElementById('how-panel-text');
     const howNodes = Array.from(document.querySelectorAll('.how-node'));
-    const howLines = Array.from(document.querySelectorAll('.hline'));
-    const particles = Array.from(document.querySelectorAll('.how-particle'));
-    const mobile = () => window.innerWidth < 980;
+    const howArrows = Array.from(document.querySelectorAll('[data-flow-link]'));
 
     function setWhyState(step, punch) {
       if (!whySection) return;
@@ -1723,12 +1826,9 @@
         const id = Number(node.dataset.node);
         node.classList.toggle('active', active.includes(id));
       });
-      howLines.forEach((line) => {
-        const link = line.dataset.link || '';
-        line.classList.toggle('active', connectorActive(link, active));
-      });
-      particles.forEach((p) => {
-        p.classList.toggle('active', connectorActive(p.dataset.particle || '', active));
+      howArrows.forEach((arrow) => {
+        const link = arrow.getAttribute('data-flow-link') || '';
+        arrow.classList.toggle('active', connectorActive(link, active));
       });
       updateHowPanel(focus);
     }
@@ -1840,38 +1940,9 @@
       });
     });
 
-    let particleRaf = 0;
-    function animateParticles(ts) {
-      particles.forEach((p, i) => {
-        if (!p.classList.contains('active') || reducedMotion) return;
-        const key = p.dataset.particle || '';
-        const line = howLines.find((l) => l.dataset.link === key);
-        if (!line) return;
-        let x1, y1, x2, y2;
-        if (mobile()) {
-          const a = Number(key.split('-')[0]);
-          const b = Number(key.split('-')[1]);
-          const na = document.querySelector(`.how-node[data-node="${a}"]`);
-          const nb = document.querySelector(`.how-node[data-node="${b}"]`);
-          if (!na || !nb) return;
-          const ca = na.offsetTop + na.offsetHeight / 2;
-          const cb = nb.offsetTop + nb.offsetHeight / 2;
-          const cx = na.offsetLeft + na.offsetWidth / 2;
-          x1 = cx; x2 = cx; y1 = ca; y2 = cb;
-        } else {
-          x1 = Number(line.getAttribute('x1')); y1 = Number(line.getAttribute('y1'));
-          x2 = Number(line.getAttribute('x2')); y2 = Number(line.getAttribute('y2'));
-        }
-        const t = ((ts * 0.00022) + i * 0.17) % 1;
-        p.setAttribute('cx', String(x1 + (x2 - x1) * t));
-        p.setAttribute('cy', String(y1 + (y2 - y1) * t));
-      });
-      particleRaf = requestAnimationFrame(animateParticles);
-    }
     setHowState(0, false);
     setWhyState(0, false);
     setWhatState(0, false);
-    if (!reducedMotion) particleRaf = requestAnimationFrame(animateParticles);
   </script>
 </body>
 </html>
