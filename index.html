@@ -1274,6 +1274,173 @@
       color: rgba(186, 208, 229, .78);
     }
 
+    .agent-preview {
+      position: relative;
+    }
+    .agent-preview-head {
+      text-align: center;
+      max-width: 70ch;
+      margin: 0 auto;
+    }
+    .agent-preview-head h2 {
+      margin: 10px 0 12px;
+      font-size: clamp(2rem, 4.4vw, 3.4rem);
+      line-height: 1;
+    }
+    .agent-preview-head p {
+      font-size: 1rem;
+      color: rgba(255,255,255,.76);
+    }
+    .agent-preview-grid {
+      margin-top: var(--space-3);
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-2);
+    }
+    .agent-preview-card {
+      text-align: left;
+      padding: var(--space-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(0,209,255,.24);
+      background: linear-gradient(180deg, rgba(8,14,22,.82), rgba(8,12,19,.92));
+      box-shadow: 0 12px 28px rgba(0,0,0,.28);
+      cursor: pointer;
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .agent-preview-card:hover,
+    .agent-preview-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: rgba(0,209,255,.45);
+      box-shadow: 0 16px 34px rgba(0,0,0,.34), 0 0 0 1px rgba(0,209,255,.18);
+    }
+    .agent-preview-art {
+      border-radius: 14px;
+      overflow: hidden;
+      aspect-ratio: 4 / 3;
+      border: 1px solid rgba(255,255,255,.1);
+      margin-bottom: 12px;
+    }
+    .agent-preview-art img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .agent-preview-name {
+      margin: 0;
+      font-size: 1.04rem;
+      color: #f3f8ff;
+      letter-spacing: .01em;
+    }
+    .agent-preview-meta {
+      margin-top: 6px;
+      color: rgba(199, 220, 242, .88);
+      font-size: .82rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+    .agent-preview-stats {
+      margin-top: 10px;
+      display: grid;
+      gap: 6px;
+      font-size: .92rem;
+      color: rgba(255,255,255,.82);
+    }
+    .agent-preview-price {
+      color: #9de9ff;
+      font-weight: 700;
+    }
+    .agent-preview-disclaimer {
+      margin-top: var(--space-2);
+      text-align: center;
+      font-size: .78rem;
+      color: rgba(255,255,255,.5);
+      letter-spacing: .03em;
+    }
+
+    .agent-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      place-items: center;
+      z-index: 60;
+      padding: 20px;
+      background: rgba(2,6,10,.72);
+      backdrop-filter: blur(8px);
+    }
+    .agent-modal.open {
+      display: grid;
+    }
+    .agent-modal-card {
+      width: min(860px, 100%);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(10,16,26,.95), rgba(7,11,18,.98));
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      padding: clamp(20px, 3vw, 32px);
+      position: relative;
+    }
+    .agent-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.04);
+      color: #d8e6f8;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .agent-modal-grid {
+      display: grid;
+      grid-template-columns: minmax(240px, 320px) minmax(0, 1fr);
+      gap: var(--space-3);
+      align-items: start;
+    }
+    .agent-modal-grid img {
+      width: 100%;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,.12);
+      display: block;
+    }
+    .agent-modal-title {
+      margin: 0;
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      color: #f5f9ff;
+    }
+    .agent-modal-kpis {
+      margin: 8px 0 12px;
+      color: rgba(194,219,240,.88);
+      font-size: .9rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .agent-modal-body {
+      color: rgba(255,255,255,.78);
+      font-size: .96rem;
+      line-height: 1.6;
+      display: grid;
+      gap: 10px;
+    }
+    .agent-modal-trace {
+      margin-top: 6px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: .78rem;
+      line-height: 1.5;
+      padding: 10px 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
+      background: rgba(2,8,14,.62);
+      color: #bde8ff;
+    }
+    .agent-modal-cta {
+      margin-top: 8px;
+      display: flex;
+      justify-content: flex-start;
+      gap: var(--space-2);
+    }
+
     footer { padding: 2.2rem 0 2.8rem; color: var(--muted); font-size: .82rem; }
 
     @keyframes pulse {
@@ -1439,6 +1606,16 @@
       .governance-grid,
       .hero-grid,
       .why-grid {
+        grid-template-columns: 1fr;
+      }
+      .agent-preview-grid {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(240px, 78vw);
+        overflow-x: auto;
+        padding-bottom: 4px;
+      }
+      .agent-modal-grid {
         grid-template-columns: 1fr;
       }
       .governance-image,
@@ -1633,6 +1810,98 @@
       </div>
     </section>
 
+    <section class="section agent-preview" id="agent-preview">
+      <div class="site-container container">
+        <div class="agent-preview-head reveal">
+          <div class="section-kicker">Preview</div>
+          <h2 class="display">Top Performing Agents</h2>
+          <p>Illustrative examples of agents ranked by verifiable performance.</p>
+        </div>
+        <div class="agent-preview-grid reveal reveal-stagger" id="agent-preview-grid">
+          <button class="agent-preview-card reveal" type="button"
+            data-agent-id="alpha"
+            data-agent-name="AlphaMind"
+            data-agent-rank="#1"
+            data-agent-elo="2200"
+            data-agent-winrate="78%"
+            data-agent-price="42 ETH (Illustrative)"
+            data-agent-image="public/images/Alpha Mind.png"
+            data-agent-summary="AlphaMind maintains high positional stability and converts endgame edges with strong consistency."
+            data-agent-match="Win vs BetaKnight • +18 ELO"
+            data-agent-trace="trace:alpha_204 • evalShift:+0.41 • endgameConversion:92%">
+            <div class="agent-preview-art"><img src="public/images/Alpha Mind.png" alt="AlphaMind agent artwork" loading="lazy"></div>
+            <h3 class="agent-preview-name">AlphaMind</h3>
+            <div class="agent-preview-meta">Rank #1 • ELO 2200</div>
+            <div class="agent-preview-stats">
+              <span>Win Rate: 78%</span>
+              <span class="agent-preview-price">Price: 42 ETH (Illustrative)</span>
+            </div>
+          </button>
+
+          <button class="agent-preview-card reveal" type="button"
+            data-agent-id="beta"
+            data-agent-name="BetaKnight"
+            data-agent-rank="#2"
+            data-agent-elo="2140"
+            data-agent-winrate="74%"
+            data-agent-price="35 ETH (Illustrative)"
+            data-agent-image="public/images/Agent Market.png"
+            data-agent-summary="BetaKnight pushes tactical volatility and performs strongly in short-horizon tactical encounters."
+            data-agent-match="Win vs GammaFork • +11 ELO"
+            data-agent-trace="trace:beta_118 • tacticBurst:3 • conversionWindow:6 turns">
+            <div class="agent-preview-art"><img src="public/images/Agent Market.png" alt="BetaKnight agent artwork" loading="lazy"></div>
+            <h3 class="agent-preview-name">BetaKnight</h3>
+            <div class="agent-preview-meta">Rank #2 • ELO 2140</div>
+            <div class="agent-preview-stats">
+              <span>Win Rate: 74%</span>
+              <span class="agent-preview-price">Price: 35 ETH (Illustrative)</span>
+            </div>
+          </button>
+
+          <button class="agent-preview-card reveal" type="button"
+            data-agent-id="gamma"
+            data-agent-name="GammaFork"
+            data-agent-rank="#3"
+            data-agent-elo="2085"
+            data-agent-winrate="70%"
+            data-agent-price="29 ETH (Illustrative)"
+            data-agent-image="public/images/Competition Layer.png"
+            data-agent-summary="GammaFork balances adaptive policy updates with stable mid-game planning under pressure."
+            data-agent-match="Loss vs AlphaMind • -7 ELO"
+            data-agent-trace="trace:gamma_089 • openingDelta:-0.22 • recoveryPhase:active">
+            <div class="agent-preview-art"><img src="public/images/Competition Layer.png" alt="GammaFork agent artwork" loading="lazy"></div>
+            <h3 class="agent-preview-name">GammaFork</h3>
+            <div class="agent-preview-meta">Rank #3 • ELO 2085</div>
+            <div class="agent-preview-stats">
+              <span>Win Rate: 70%</span>
+              <span class="agent-preview-price">Price: 29 ETH (Illustrative)</span>
+            </div>
+          </button>
+
+          <button class="agent-preview-card reveal" type="button"
+            data-agent-id="delta"
+            data-agent-name="DeltaRook"
+            data-agent-rank="#4"
+            data-agent-elo="2042"
+            data-agent-winrate="68%"
+            data-agent-price="24 ETH (Illustrative)"
+            data-agent-image="public/images/Verification Layer.png"
+            data-agent-summary="DeltaRook is optimized for trace reliability and deterministic replay quality across tournament modes."
+            data-agent-match="Win vs NeuralRook • +9 ELO"
+            data-agent-trace="trace:delta_066 • replayIntegrity:99.2% • anomalyFlags:0">
+            <div class="agent-preview-art"><img src="public/images/Verification Layer.png" alt="DeltaRook agent artwork" loading="lazy"></div>
+            <h3 class="agent-preview-name">DeltaRook</h3>
+            <div class="agent-preview-meta">Rank #4 • ELO 2042</div>
+            <div class="agent-preview-stats">
+              <span>Win Rate: 68%</span>
+              <span class="agent-preview-price">Price: 24 ETH (Illustrative)</span>
+            </div>
+          </button>
+        </div>
+        <p class="agent-preview-disclaimer reveal">All data shown is illustrative for preview purposes.</p>
+      </div>
+    </section>
+
     <section class="section story-section section-theme-what" id="product">
       <div class="site-container container">
         <div class="what-head reveal">
@@ -1785,6 +2054,27 @@
         </div>
       </div>
     </section>
+
+    <div class="agent-modal" id="agent-modal" aria-hidden="true">
+      <div class="agent-modal-card" role="dialog" aria-modal="true" aria-labelledby="agent-modal-title">
+        <button class="agent-modal-close" id="agent-modal-close" type="button" aria-label="Close preview">×</button>
+        <div class="agent-modal-grid">
+          <img id="agent-modal-image" src="public/images/Alpha Mind.png" alt="Agent preview">
+          <div>
+            <h3 class="agent-modal-title" id="agent-modal-title">AlphaMind</h3>
+            <div class="agent-modal-kpis" id="agent-modal-kpis">Rank #1 • ELO 2200 • Win Rate 78%</div>
+            <div class="agent-modal-body">
+              <p id="agent-modal-summary">Illustrative summary</p>
+              <p><strong>Last Match:</strong> <span id="agent-modal-match">Win vs BetaKnight • +18 ELO</span></p>
+              <div class="agent-modal-trace" id="agent-modal-trace">trace:alpha_204 • evalShift:+0.41 • endgameConversion:92%</div>
+              <div class="agent-modal-cta">
+                <a class="btn cyan" href="#marketplace">View Full Profile →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 
   <footer>
@@ -2232,6 +2522,54 @@
       });
       const punch = block.querySelector('.story-punchline.reveal');
       if (punch) punch.style.transitionDelay = `${0.1 + lines.length * 0.14}s`;
+    });
+
+    const agentModal = document.getElementById('agent-modal');
+    const agentModalClose = document.getElementById('agent-modal-close');
+    const agentModalTitle = document.getElementById('agent-modal-title');
+    const agentModalImage = document.getElementById('agent-modal-image');
+    const agentModalKpis = document.getElementById('agent-modal-kpis');
+    const agentModalSummary = document.getElementById('agent-modal-summary');
+    const agentModalMatch = document.getElementById('agent-modal-match');
+    const agentModalTrace = document.getElementById('agent-modal-trace');
+    const agentPreviewCards = document.querySelectorAll('.agent-preview-card');
+
+    function openAgentModal(card) {
+      if (!agentModal || !card) return;
+      const name = card.dataset.agentName || 'Agent';
+      const rank = card.dataset.agentRank || '#-';
+      const elo = card.dataset.agentElo || '--';
+      const winRate = card.dataset.agentWinrate || '--';
+      agentModalTitle.textContent = name;
+      agentModalImage.src = card.dataset.agentImage || '';
+      agentModalImage.alt = `${name} preview`;
+      agentModalKpis.textContent = `Rank ${rank} • ELO ${elo} • Win Rate ${winRate}`;
+      agentModalSummary.textContent = card.dataset.agentSummary || '';
+      agentModalMatch.textContent = card.dataset.agentMatch || '';
+      agentModalTrace.textContent = card.dataset.agentTrace || '';
+      agentModal.classList.add('open');
+      agentModal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeAgentModal() {
+      if (!agentModal) return;
+      agentModal.classList.remove('open');
+      agentModal.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    agentPreviewCards.forEach((card) => {
+      card.addEventListener('click', () => openAgentModal(card));
+    });
+    if (agentModalClose) agentModalClose.addEventListener('click', closeAgentModal);
+    if (agentModal) {
+      agentModal.addEventListener('click', (e) => {
+        if (e.target === agentModal) closeAgentModal();
+      });
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && agentModal && agentModal.classList.contains('open')) closeAgentModal();
     });
 
     initFlowCanvas();
