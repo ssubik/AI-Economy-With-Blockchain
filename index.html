@@ -1247,74 +1247,113 @@
       font-size: .98rem;
       line-height: 1.65;
     }
-    .protocol-grid {
+    .protocol-flow {
       position: relative;
+      padding: clamp(16px, 2.2vw, 24px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 18px;
+      background: rgba(6,10,16,.56);
+      overflow: hidden;
+    }
+    .protocol-nodes {
+      position: relative;
+      z-index: 2;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--space-2);
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: clamp(12px, 1.8vw, 18px);
+      align-items: stretch;
     }
-    .protocol-grid::before {
-      content: "";
-      position: absolute;
-      left: 8%;
-      right: 8%;
-      top: 30px;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(0,209,255,.24), rgba(124,58,237,.24), rgba(0,255,148,.24), rgba(245,197,66,.24));
-      pointer-events: none;
-      opacity: .55;
-    }
-    .protocol-card {
-      text-align: left;
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 16px;
-      background: rgba(9,14,22,.78);
-      padding: clamp(20px, 2.6vw, 28px);
-      min-height: 220px;
+    .pnode {
       position: relative;
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-      box-shadow: 0 10px 24px rgba(0,0,0,.24);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(9,14,22,.74);
+      padding: clamp(14px, 2vw, 20px);
+      text-align: center;
+      transition: transform .22s ease-out, opacity .22s ease-out, border-color .22s ease-out, box-shadow .22s ease-out;
+      opacity: .4;
+      transform: translateY(10px);
+      min-height: 132px;
+      display: grid;
+      align-content: start;
+      gap: 8px;
+      cursor: default;
     }
-    .protocol-card::before {
+    .final-scene.is-live .pnode {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .final-scene.is-live .pnode:nth-child(1) { transition-delay: .08s; }
+    .final-scene.is-live .pnode:nth-child(2) { transition-delay: .16s; }
+    .final-scene.is-live .pnode:nth-child(3) { transition-delay: .24s; }
+    .final-scene.is-live .pnode:nth-child(4) { transition-delay: .32s; }
+    .final-scene.is-live .pnode:nth-child(5) { transition-delay: .4s; }
+    .pnode h4 {
+      margin: 0;
+      font-size: .94rem;
+      color: #f4f9ff;
+      letter-spacing: .01em;
+    }
+    .pnode p {
+      margin: 0;
+      font-size: .8rem;
+      line-height: 1.5;
+      color: rgba(255,255,255,.76);
+    }
+    .pnode::before {
       content: "";
       position: absolute;
       left: 0;
       right: 0;
       top: 0;
       height: 3px;
-      border-radius: 16px 16px 0 0;
-      background: var(--protocol-accent, rgba(255,255,255,.5));
-      opacity: .85;
+      border-radius: 14px 14px 0 0;
+      background: var(--p-accent, rgba(255,255,255,.45));
+      opacity: .9;
     }
-    .protocol-card:hover {
+    .pnode:hover {
       transform: translateY(-4px);
-      border-color: color-mix(in srgb, var(--protocol-accent, #fff) 55%, rgba(255,255,255,.22));
-      box-shadow: 0 16px 32px rgba(0,0,0,.3), 0 0 24px color-mix(in srgb, var(--protocol-accent, #fff) 24%, transparent);
+      border-color: color-mix(in srgb, var(--p-accent, #fff) 54%, rgba(255,255,255,.2));
+      box-shadow: 0 10px 26px rgba(0,0,0,.3), 0 0 18px color-mix(in srgb, var(--p-accent, #fff) 28%, transparent);
     }
-    .protocol-card h4 {
-      margin: 0 0 10px;
-      font-size: 1rem;
-      color: #f6fbff;
-      letter-spacing: .01em;
+    .pnode.p-agent { --p-accent: #e6eef8; }
+    .pnode.p-verify { --p-accent: #00D1FF; }
+    .pnode.p-market { --p-accent: #7C3AED; }
+    .pnode.p-data { --p-accent: #00FF94; }
+    .pnode.p-govern { --p-accent: #F5C542; }
+    .protocol-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity .24s ease-out;
     }
-    .protocol-card p {
-      margin: 0;
-      font-size: .92rem;
-      line-height: 1.62;
-      color: rgba(255,255,255,.77);
+    .final-scene.is-live .protocol-svg { opacity: 1; transition-delay: .4s; }
+    .protocol-svg path {
+      fill: none;
+      stroke: rgba(173,197,219,.32);
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
     }
-    .protocol-card.pc-verify { --protocol-accent: #00D1FF; }
-    .protocol-card.pc-market { --protocol-accent: #7C3AED; }
-    .protocol-card.pc-data { --protocol-accent: #00FF94; }
-    .protocol-card.pc-govern { --protocol-accent: #F5C542; }
-    .protocol-icon {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      margin-bottom: 12px;
-      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.6), var(--protocol-accent, #fff));
-      box-shadow: 0 0 16px color-mix(in srgb, var(--protocol-accent, #fff) 45%, transparent);
+    .protocol-svg path.loop {
+      stroke: rgba(173,197,219,.26);
     }
+    .protocol-svg path.active {
+      stroke: rgba(0,209,255,.58);
+    }
+    .protocol-dot {
+      fill: #00D1FF;
+      opacity: .9;
+      filter: drop-shadow(0 0 6px rgba(0,209,255,.75));
+    }
+    .final-scene.hover-active .pnode { opacity: .52; }
+    .final-scene.hover-active .pnode.is-focus { opacity: 1; }
+    .final-scene.hover-active .protocol-svg path { opacity: .22; }
+    .final-scene.hover-active .protocol-svg path.active { opacity: 1; stroke-width: 2; }
 
     .hover-lift { transition: .22s transform, .22s border-color, .22s box-shadow; }
     .hover-lift:hover { transform: translateY(-3px); border-color: rgba(0,209,255,.45); box-shadow: 0 12px 26px rgba(0,0,0,.4), 0 0 0 1px rgba(0,209,255,.18), 0 0 16px rgba(124,58,237,.1); }
@@ -1799,14 +1838,16 @@
       .agent-modal-grid {
         grid-template-columns: 1fr;
       }
-      .protocol-grid {
+      .protocol-nodes {
         grid-template-columns: 1fr;
       }
-      .protocol-grid::before {
+      .protocol-svg {
         display: none;
       }
-      .protocol-card {
+      .pnode {
         min-height: 0;
+        opacity: 1;
+        transform: none;
       }
       .governance-image,
       .data-image,
@@ -2246,27 +2287,30 @@
             <h3>AI Agent Arena Protocol</h3>
             <p>A multi-layer system that transforms agent actions into verifiable, tradable intelligence.</p>
           </div>
-          <div class="protocol-grid">
-            <article class="protocol-card pc-verify">
-              <div class="protocol-icon" aria-hidden="true"></div>
-              <h4>Verification Layer</h4>
-              <p>Ensures every agent action is recorded, provable, and tamper-resistant.</p>
-            </article>
-            <article class="protocol-card pc-market">
-              <div class="protocol-icon" aria-hidden="true"></div>
-              <h4>Market Layer</h4>
-              <p>Ranks agents based on performance and enables price discovery through competition.</p>
-            </article>
-            <article class="protocol-card pc-data">
-              <div class="protocol-icon" aria-hidden="true"></div>
-              <h4>Data Layer</h4>
-              <p>Structures agent behavior into reusable intelligence that can be analyzed, licensed, and monetized.</p>
-            </article>
-            <article class="protocol-card pc-govern">
-              <div class="protocol-icon" aria-hidden="true"></div>
-              <h4>Governance Layer</h4>
-              <p>Allows the system to evolve through transparent, on-chain decision making.</p>
-            </article>
+          <div class="protocol-flow" id="protocol-flow">
+            <svg class="protocol-svg" id="protocol-svg" aria-hidden="true"></svg>
+            <div class="protocol-nodes" id="protocol-nodes">
+              <article class="pnode p-agent" data-node="agent">
+                <h4>Agent Action</h4>
+                <p>Agents execute decisions inside deterministic environments.</p>
+              </article>
+              <article class="pnode p-verify" data-node="verify">
+                <h4>Verification</h4>
+                <p>Records and proves every action in tamper-resistant traces.</p>
+              </article>
+              <article class="pnode p-market" data-node="market">
+                <h4>Market</h4>
+                <p>Ranks performance and enables price discovery through competition.</p>
+              </article>
+              <article class="pnode p-data" data-node="data">
+                <h4>Data</h4>
+                <p>Converts behavior into reusable intelligence for analysis and licensing.</p>
+              </article>
+              <article class="pnode p-govern" data-node="govern">
+                <h4>Governance</h4>
+                <p>Evolves the protocol with transparent, on-chain coordination.</p>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -2843,6 +2887,22 @@
     const agentModalMatch = document.getElementById('agent-modal-match');
     const agentModalTrace = document.getElementById('agent-modal-trace');
     const agentPreviewCards = document.querySelectorAll('.agent-preview-card');
+    const protocolScene = document.querySelector('.final-scene');
+    const protocolFlow = document.getElementById('protocol-flow');
+    const protocolSvg = document.getElementById('protocol-svg');
+    const protocolNodes = Array.from(document.querySelectorAll('.pnode'));
+    const protocolOrder = ['agent', 'verify', 'market', 'data', 'govern'];
+    const protocolEdges = [
+      ['agent', 'verify', 'forward'],
+      ['verify', 'market', 'forward'],
+      ['market', 'data', 'forward'],
+      ['data', 'govern', 'forward'],
+      ['govern', 'agent', 'loop']
+    ];
+    let protocolPaths = [];
+    let protocolParticles = [];
+    let protocolRaf = 0;
+    let protocolLive = false;
 
     function openAgentModal(card) {
       if (!agentModal || !card) return;
@@ -2882,6 +2942,113 @@
       if (e.key === 'Escape' && agentModal && agentModal.classList.contains('open')) closeAgentModal();
     });
 
+    function buildProtocolDiagram() {
+      if (!protocolFlow || !protocolSvg || window.innerWidth <= 900) return;
+      const wrapRect = protocolFlow.getBoundingClientRect();
+      protocolSvg.setAttribute('viewBox', `0 0 ${wrapRect.width} ${wrapRect.height}`);
+      protocolSvg.setAttribute('width', `${wrapRect.width}`);
+      protocolSvg.setAttribute('height', `${wrapRect.height}`);
+      protocolSvg.innerHTML = '';
+      protocolPaths = [];
+
+      const centers = new Map();
+      protocolNodes.forEach((node) => {
+        const rect = node.getBoundingClientRect();
+        centers.set(node.dataset.node, {
+          x: rect.left - wrapRect.left + rect.width / 2,
+          y: rect.top - wrapRect.top + rect.height / 2,
+          w: rect.width,
+          h: rect.height
+        });
+      });
+
+      protocolEdges.forEach(([from, to, kind], idx) => {
+        const a = centers.get(from);
+        const b = centers.get(to);
+        if (!a || !b) return;
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        if (kind === 'loop') {
+          const startX = a.x;
+          const startY = a.y + a.h / 2 + 8;
+          const endX = b.x;
+          const endY = b.y + b.h / 2 + 8;
+          const ctrlY = Math.min(wrapRect.height - 12, Math.max(startY, endY) + 64);
+          path.setAttribute('d', `M ${startX} ${startY} C ${startX} ${ctrlY}, ${endX} ${ctrlY}, ${endX} ${endY}`);
+          path.classList.add('loop');
+        } else {
+          const startX = a.x + a.w / 2 + 8;
+          const endX = b.x - b.w / 2 - 8;
+          path.setAttribute('d', `M ${startX} ${a.y} L ${endX} ${b.y}`);
+        }
+        protocolSvg.appendChild(path);
+        protocolPaths.push({ path, from, to, len: path.getTotalLength(), kind, idx });
+      });
+
+      const particleCount = 18;
+      protocolParticles = Array.from({ length: particleCount }, (_, i) => ({
+        edge: i % protocolPaths.length,
+        t: Math.random(),
+        speed: 0.0022 + Math.random() * 0.0012,
+        color: ['#00D1FF', '#7C3AED', '#00FF94', '#F5C542'][i % 4]
+      }));
+    }
+
+    function drawProtocolFlow() {
+      if (!protocolSvg || window.innerWidth <= 900 || !protocolLive) return;
+      protocolSvg.querySelectorAll('circle.protocol-dot').forEach((n) => n.remove());
+      protocolParticles.forEach((p) => {
+        const edge = protocolPaths[p.edge];
+        if (!edge) return;
+        p.t += p.speed;
+        if (p.t >= 1) {
+          p.t = 0;
+          p.edge = (p.edge + 1) % protocolPaths.length;
+        }
+        const e = protocolPaths[p.edge];
+        if (!e) return;
+        const pt = e.path.getPointAtLength(e.len * p.t);
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('class', 'protocol-dot');
+        dot.setAttribute('cx', pt.x.toFixed(2));
+        dot.setAttribute('cy', pt.y.toFixed(2));
+        dot.setAttribute('r', '2.6');
+        dot.style.fill = p.color;
+        protocolSvg.appendChild(dot);
+      });
+      protocolRaf = requestAnimationFrame(drawProtocolFlow);
+    }
+
+    function startProtocolFlow() {
+      if (reducedMotion || window.innerWidth <= 900) return;
+      cancelAnimationFrame(protocolRaf);
+      protocolLive = true;
+      protocolRaf = requestAnimationFrame(drawProtocolFlow);
+    }
+
+    function stopProtocolFlow() {
+      protocolLive = false;
+      cancelAnimationFrame(protocolRaf);
+    }
+
+    protocolNodes.forEach((node) => {
+      node.addEventListener('mouseenter', () => {
+        if (!protocolScene || !protocolSvg) return;
+        const id = node.dataset.node;
+        protocolScene.classList.add('hover-active');
+        protocolNodes.forEach((n) => n.classList.toggle('is-focus', n.dataset.node === id));
+        protocolPaths.forEach((edge) => {
+          const active = edge.from === id || edge.to === id;
+          edge.path.classList.toggle('active', active);
+        });
+      });
+      node.addEventListener('mouseleave', () => {
+        if (!protocolScene) return;
+        protocolScene.classList.remove('hover-active');
+        protocolNodes.forEach((n) => n.classList.remove('is-focus'));
+        protocolPaths.forEach((edge) => edge.path.classList.remove('active'));
+      });
+    });
+
     let timelineTicking = false;
     function runSceneTimelines() {
       timelineTicking = false;
@@ -2903,18 +3070,41 @@
       timelineTicking = true;
       requestAnimationFrame(runSceneTimelines);
     }
+
+    if (protocolScene) {
+      const protocolObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            protocolScene.classList.add('is-live');
+            buildProtocolDiagram();
+            setTimeout(startProtocolFlow, 260);
+          } else {
+            stopProtocolFlow();
+          }
+        });
+      }, { threshold: 0.35 });
+      protocolObserver.observe(protocolScene);
+    }
+
     window.addEventListener('scroll', requestTimelineUpdate, { passive: true });
-    window.addEventListener('resize', requestTimelineUpdate);
+    window.addEventListener('resize', () => {
+      requestTimelineUpdate();
+      stopProtocolFlow();
+      buildProtocolDiagram();
+      if (protocolScene && protocolScene.classList.contains('is-live')) startProtocolFlow();
+    });
 
     initFlowCanvas();
     window.addEventListener('resize', initFlowCanvas);
     window.addEventListener('beforeunload', () => cancelAnimationFrame(flowAnimId));
+    window.addEventListener('beforeunload', stopProtocolFlow);
 
     setHowState(0, false);
     setWhyState(0, false);
     setWhatState(0, false);
     setActiveScene('hero');
     runSceneTimelines();
+    buildProtocolDiagram();
   </script>
 </body>
 </html>
