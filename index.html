@@ -667,6 +667,29 @@
       border-color: rgba(0,209,255,.5);
       box-shadow: 0 10px 24px rgba(0,209,255,.18);
     }
+    .how-panel {
+      margin-top: var(--space-2);
+      border: 1px solid rgba(0,209,255,.26);
+      border-radius: var(--radius-sm);
+      background: rgba(4,18,25,.56);
+      padding: var(--space-2);
+      position: relative;
+      z-index: 2;
+    }
+    .how-panel-title {
+      margin: 0 0 6px;
+      color: #bcefff;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: .7rem;
+      font-weight: 700;
+    }
+    .how-panel-text {
+      margin: 0;
+      color: #d5e8fb;
+      font-size: .92rem;
+      line-height: 1.5;
+    }
     #how.how-punch .flow-label { border-color: rgba(0,209,255,.45); }
     #how.how-punch .story-punchline { text-shadow: 0 0 28px rgba(0,209,255,.36); }
 
@@ -1044,6 +1067,23 @@
 
     .story-section-pin { position: relative; z-index: 2; min-width: 0; }
     .story-section-pin .pin-shell { position: relative; }
+    .story-transition {
+      margin: 0 auto var(--space-3);
+      text-align: center;
+      font-size: .8rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #c8d4e6;
+      max-width: 48ch;
+      opacity: .88;
+    }
+    .story-transition span {
+      background: linear-gradient(90deg, rgba(0,209,255,.95), rgba(124,58,237,.95));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
     .hero-note { font-size: .88rem; opacity: .86; margin-top: var(--space-2); }
     .data-grid-tight { margin-top: var(--space-2); }
     pre {
@@ -1202,6 +1242,11 @@
       .story-section-pin .pin-shell { position: static; }
       .orbital { min-height: 420px; }
       .why-tag, .why-net, .why-foundation { display: none; }
+      .why-ring.r1 { animation-duration: 30s; }
+      .why-ring.r2 { animation-duration: 38s; }
+      .why-ring.r3 { animation-duration: 46s; }
+      .why-ring.r4 { animation-duration: 54s; }
+      .why-node { animation-duration: 4.6s; }
       .layer, .roadmap, .moat-grid { gap: var(--space-2); }
     }
     @media (max-width: 620px) {
@@ -1402,6 +1447,7 @@
 
     <section class="section story-section section-theme-how" id="how">
       <div class="site-container container">
+        <p class="story-transition reveal">From black box <span>to verifiable economy</span></p>
         <div class="how-head reveal">
           <div class="section-kicker">HOW</div>
           <h2 class="display">A new economy for intelligence</h2>
@@ -1427,6 +1473,10 @@
               <div class="flow-label" data-node="provenance">Blockchain Provenance</div>
               <div class="flow-label" data-node="governance">Governance Stabilizer</div>
             </div>
+          </div>
+          <div class="how-panel">
+            <p class="how-panel-title" id="how-panel-title">Flow Narrative</p>
+            <p class="how-panel-text" id="how-panel-text">Actions become transactions. Transactions become value.</p>
           </div>
         </div>
         <div class="layer-list reveal">
@@ -1739,7 +1789,16 @@
     const flowCanvas = document.getElementById('flowCanvas');
     const flowWrap = flowCanvas ? flowCanvas.parentElement : null;
     const flowCtx = flowCanvas ? flowCanvas.getContext('2d') : null;
+    const howPanelTitle = document.getElementById('how-panel-title');
+    const howPanelText = document.getElementById('how-panel-text');
     const flowPalette = ['#00D1FF', '#7C3AED', '#2563EB'];
+    const flowStepCopy = {
+      1: { title: 'Agent Action', text: 'The system starts with agent behavior inside a deterministic environment.' },
+      2: { title: 'Recorded Trace', text: 'Every action is recorded into auditable traces with consistent structure.' },
+      3: { title: 'Verifiable Transaction', text: 'Critical traces are promoted into verifiable, timestamped transactions.' },
+      4: { title: 'Performance Economy', text: 'Transactions become measurable outcomes that support ranking and valuation.' },
+      5: { title: 'Governance Stabilizer', text: 'On-chain provenance and governance keep the market transparent and adaptive.' }
+    };
     let flowAnimId = 0;
     let flowParticles = [];
     let flowState = {
@@ -1773,12 +1832,12 @@
         ];
       }
       return [
-        { id: 'agent', x: 0.2, y: 0.3 },
-        { id: 'trace', x: 0.5, y: 0.2 },
-        { id: 'tx', x: 0.8, y: 0.3 },
-        { id: 'economy', x: 0.2, y: 0.7 },
-        { id: 'provenance', x: 0.5, y: 0.8 },
-        { id: 'governance', x: 0.8, y: 0.7 }
+        { id: 'agent', x: 0.2, y: 0.26 },
+        { id: 'trace', x: 0.5, y: 0.26 },
+        { id: 'tx', x: 0.8, y: 0.26 },
+        { id: 'economy', x: 0.8, y: 0.72 },
+        { id: 'provenance', x: 0.5, y: 0.72 },
+        { id: 'governance', x: 0.2, y: 0.72 }
       ];
     }
 
@@ -1834,7 +1893,7 @@
 
     function createFlowParticles() {
       if (!flowState.edges.length) return;
-      const particleCount = window.innerWidth <= 768 ? 42 : 72;
+      const particleCount = window.innerWidth <= 480 ? 0 : window.innerWidth <= 768 ? 26 : 72;
       flowParticles = Array.from({ length: particleCount }, (_, i) => {
         const edgeIndex = i % flowState.edges.length;
         return {
@@ -1860,6 +1919,17 @@
         flowCtx.moveTo(edge.a.px, edge.a.py);
         flowCtx.lineTo(edge.b.px, edge.b.py);
         flowCtx.stroke();
+        const angle = Math.atan2(edge.b.py - edge.a.py, edge.b.px - edge.a.px);
+        const arrowLen = 10;
+        const ax = edge.b.px - Math.cos(angle) * 12;
+        const ay = edge.b.py - Math.sin(angle) * 12;
+        flowCtx.beginPath();
+        flowCtx.moveTo(ax, ay);
+        flowCtx.lineTo(ax - Math.cos(angle - Math.PI / 6) * arrowLen, ay - Math.sin(angle - Math.PI / 6) * arrowLen);
+        flowCtx.lineTo(ax - Math.cos(angle + Math.PI / 6) * arrowLen, ay - Math.sin(angle + Math.PI / 6) * arrowLen);
+        flowCtx.closePath();
+        flowCtx.fillStyle = isActive ? 'rgba(0,209,255,.65)' : 'rgba(160,170,190,.35)';
+        flowCtx.fill();
       });
 
       flowParticles.forEach((particle) => {
@@ -1942,6 +2012,9 @@
         const nodeId = label.dataset.node;
         label.classList.toggle('active', activeNodes.has(nodeId));
       });
+      const copy = flowStepCopy[Math.max(1, Math.min(5, step))] || flowStepCopy[1];
+      if (howPanelTitle) howPanelTitle.textContent = copy.title;
+      if (howPanelText) howPanelText.textContent = copy.text;
     }
 
     function setWhatState(step, punch) {
